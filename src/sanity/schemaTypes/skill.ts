@@ -19,6 +19,7 @@ export const skill = defineType({
         list: [
           { title: 'Programming Languages', value: 'Programming' },
           { title: 'Frameworks & Tools', value: 'Tools' },
+          { title: 'Creative & Media', value: 'Creative' },
           { title: 'Currently Learning', value: 'Currently Learning' },
         ],
       },

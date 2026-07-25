@@ -12,6 +12,7 @@ import {structureTool} from 'sanity/structure'
 import {apiVersion, dataset, projectId} from './src/sanity/env'
 import {schema} from './src/sanity/schemaTypes'
 import {structure} from './src/sanity/structure'
+import {singletonTypes} from './src/sanity/singletons'
 
 export default defineConfig({
   basePath: '/studio',
@@ -25,4 +26,19 @@ export default defineConfig({
     // https://www.sanity.io/docs/the-vision-plugin
     visionTool({defaultApiVersion: apiVersion}),
   ],
+  document: {
+    // Singleton documents (e.g. Hero Section) can only be published/edited,
+    // never duplicated or deleted from the Studio UI.
+    actions: (input, context) =>
+      singletonTypes.has(context.schemaType)
+        ? input.filter(({action}) => action && ['publish', 'discardChanges', 'restore'].includes(action))
+        : input,
+    // Keep singleton types out of the "+ Create new" global menu.
+    newDocumentOptions: (prev, {creationContext}) => {
+      if (creationContext.type === 'global') {
+        return prev.filter((item) => !singletonTypes.has(item.templateId))
+      }
+      return prev
+    },
+  },
 })

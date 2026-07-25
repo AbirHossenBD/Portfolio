@@ -81,7 +81,7 @@ export default function Projects() {
               <SubtleWobble>
                 <div className="group flex h-full flex-col overflow-hidden rounded-2xl border border-slate-800/60 bg-[#1E293B]/50 transition-colors hover:border-slate-600">
                   <div className="relative h-64 w-full overflow-hidden bg-slate-900">
-                    <div className={`absolute inset-0 bg-gradient-to-br opacity-50 z-10 ${project.color}`} />
+                    <div className={`absolute inset-0 bg-linear-to-br opacity-50 z-10 ${project.color}`} />
                     <img 
                       src={project.sections[0].image} 
                       alt={project.title}

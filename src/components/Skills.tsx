@@ -4,7 +4,7 @@ import {
   SiGit, SiFigma, SiTailwindcss, SiSanity, SiVercel 
 } from "react-icons/si";
 import { VscCode } from "react-icons/vsc";
-import { FaRobot, FaNetworkWired, FaWandMagicSparkles, FaServer } from "react-icons/fa6";
+import { FaRobot, FaNetworkWired, FaWandMagicSparkles, FaServer, FaClapperboard, FaCamera, FaVideo, FaPenFancy } from "react-icons/fa6";
 
 const skillCategories = [
   {
@@ -29,6 +29,16 @@ const skillCategories = [
       { name: "Tailwind CSS", icon: SiTailwindcss, color: "text-[#06B6D4]" },
       { name: "Sanity", icon: SiSanity, color: "text-[#F03E2F]" },
       { name: "Vercel", icon: SiVercel, color: "text-white" },
+    ],
+  },
+  {
+    title: "Creative & Media",
+    accent: "text-amber-400",
+    skills: [
+      { name: "Video Editing", icon: FaClapperboard, color: "text-amber-400" },
+      { name: "Photo Editing", icon: FaCamera, color: "text-amber-400" },
+      { name: "Video Creation", icon: FaVideo, color: "text-amber-400" },
+      { name: "Script Writing", icon: FaPenFancy, color: "text-amber-400" },
     ],
   },
   {

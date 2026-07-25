@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Mail } from "lucide-react";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
@@ -86,11 +87,18 @@ function Particles({ disabled }: { disabled: boolean }) {
   );
 }
 
-// Placeholder portrait card. Swap this out once a real photo is ready:
-// replace the monogram <div> block below with
-//   <Image src="/profile.jpg" alt="Abir Hossen" fill className="object-cover" priority />
-// (import Image from "next/image" at the top) and drop the file into /public.
-function ProfileCard({ disabled }: { disabled: boolean }) {
+// Portrait card. Pulls the image from Sanity (Studio → Hero Section →
+// Portrait Image) when one is set; otherwise falls back to the monogram
+// placeholder below, so the site never shows a broken/empty frame.
+function ProfileCard({
+  disabled,
+  imageUrl,
+  imageAlt,
+}: {
+  disabled: boolean;
+  imageUrl?: string;
+  imageAlt?: string;
+}) {
   return (
     <motion.div
       initial={disabled ? false : "hidden"}
@@ -115,12 +123,22 @@ function ProfileCard({ disabled }: { disabled: boolean }) {
         <span aria-hidden className="absolute bottom-4 left-4 h-6 w-6 rounded-bl-lg border-b-2 border-l-2 border-accent-secondary/60" />
         <span aria-hidden className="absolute bottom-4 right-4 h-6 w-6 rounded-br-lg border-b-2 border-r-2 border-accent-secondary/60" />
 
-        {/* monogram placeholder */}
-        <div className="absolute inset-0 flex items-center justify-center bg-linear-to-br from-surface via-surface to-surface-elevated">
-          <span className="bg-linear-to-br from-accent to-accent-secondary bg-clip-text font-display text-7xl font-semibold text-transparent sm:text-8xl">
-            {INITIALS}
-          </span>
-        </div>
+        {imageUrl ? (
+          <Image
+            src={imageUrl}
+            alt={imageAlt || "Portrait"}
+            fill
+            sizes="(min-width: 1024px) 320px, (min-width: 640px) 288px, 256px"
+            className="object-cover"
+            priority
+          />
+        ) : (
+          <div className="absolute inset-0 flex items-center justify-center bg-linear-to-br from-surface via-surface to-surface-elevated">
+            <span className="bg-linear-to-br from-accent to-accent-secondary bg-clip-text font-display text-7xl font-semibold text-transparent sm:text-8xl">
+              {INITIALS}
+            </span>
+          </div>
+        )}
 
         {/* bottom status chip */}
         <div className="absolute inset-x-4 bottom-4 flex items-center gap-2 rounded-full border border-border/60 bg-background/70 px-3 py-1.5 backdrop-blur-md">
@@ -135,7 +153,13 @@ function ProfileCard({ disabled }: { disabled: boolean }) {
   );
 }
 
-export default function Hero() {
+export default function Hero({
+  heroImageUrl,
+  heroImageAlt,
+}: {
+  heroImageUrl?: string;
+  heroImageAlt?: string;
+}) {
   const reduceMotion = useReducedMotion();
   const words = HEADLINE.split(" ");
 
@@ -219,7 +243,7 @@ export default function Hero() {
         </motion.div>
 
         <div className="order-1 flex justify-center lg:order-2 lg:justify-end">
-          <ProfileCard disabled={!!reduceMotion} />
+          <ProfileCard disabled={!!reduceMotion} imageUrl={heroImageUrl} imageAlt={heroImageAlt} />
         </div>
       </div>
     </section>
