@@ -1,12 +1,25 @@
 import { SubtleWobble } from "./SubtleWobble";
-import { 
-  SiJavascript, SiTypescript, SiPython, SiHtml5, SiReact, SiNextdotjs, 
-  SiGit, SiFigma, SiTailwindcss, SiSanity, SiVercel 
+import {
+  SiJavascript, SiTypescript, SiPython, SiHtml5, SiReact, SiNextdotjs,
+  SiGit, SiFigma, SiTailwindcss, SiSanity, SiVercel,
 } from "react-icons/si";
 import { VscCode } from "react-icons/vsc";
 import { FaRobot, FaNetworkWired, FaWandMagicSparkles, FaServer, FaClapperboard, FaCamera, FaVideo, FaPenFancy } from "react-icons/fa6";
+import { getSkills, type SkillCategory } from "@/sanity/lib/queries";
+import { getSkillIcon } from "@/sanity/lib/skill-icons";
 
-const skillCategories = [
+// Category display metadata — order here determines display order on the page.
+const CATEGORY_META: Record<SkillCategory, { title: string; accent: string }> = {
+  Programming: { title: "Programming", accent: "text-blue-400" },
+  Tools: { title: "Tools", accent: "text-purple-400" },
+  Creative: { title: "Creative & Media", accent: "text-amber-400" },
+  "Currently Learning": { title: "Currently Learning", accent: "text-emerald-400" },
+};
+const CATEGORY_ORDER: SkillCategory[] = ["Programming", "Tools", "Creative", "Currently Learning"];
+
+// Used only if nothing has been published in Sanity yet, so the section
+// never renders empty.
+const fallbackSkillCategories = [
   {
     title: "Programming",
     accent: "text-blue-400",
@@ -53,7 +66,22 @@ const skillCategories = [
   },
 ];
 
-export default function Skills() {
+export default async function Skills() {
+  const skills = await getSkills();
+
+  const skillCategories = skills.length
+    ? CATEGORY_ORDER.map((categoryKey) => ({
+        title: CATEGORY_META[categoryKey].title,
+        accent: CATEGORY_META[categoryKey].accent,
+        skills: skills
+          .filter((skill) => skill.category === categoryKey)
+          .map((skill) => {
+            const { icon, color } = getSkillIcon(skill.icon);
+            return { name: skill.name, icon, color };
+          }),
+      })).filter((category) => category.skills.length > 0)
+    : fallbackSkillCategories;
+
   return (
     <section id="skills" className="py-24" aria-labelledby="skills-heading">
       <div className="mx-auto max-w-6xl px-6">
