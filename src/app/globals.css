@@ -1,0 +1,84 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root,
+.dark {
+  --background: #0f172a;
+  --foreground: #f8fafc;
+  --muted: #94a3b8;
+  --surface: #1e293b;
+  --surface-elevated: #243147;
+  --border: #334155;
+  --accent: #38bdf8;
+  --accent-secondary: #a855f7;
+  --accent-foreground: #0f172a;
+  --ring: #38bdf8;
+  --header-bg: rgb(15 23 42 / 0.82);
+  --atmosphere-a: rgb(56 189 248 / 0.14);
+  --atmosphere-b: rgb(168 85 247 / 0.1);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-surface: var(--surface);
+  --color-surface-elevated: var(--surface-elevated);
+  --color-border: var(--border);
+  --color-accent: var(--accent);
+  --color-accent-secondary: var(--accent-secondary);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-ring: var(--ring);
+  --font-sans: var(--font-dm-sans);
+  --font-display: var(--font-syne);
+  --font-mono: var(--font-jetbrains);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    color-scheme: dark;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    background-image:
+      radial-gradient(ellipse 70% 45% at 15% -5%, var(--atmosphere-a), transparent 55%),
+      radial-gradient(ellipse 55% 40% at 90% 5%, var(--atmosphere-b), transparent 50%);
+    background-attachment: fixed;
+    min-height: 100dvh;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--accent) 40%, transparent);
+    color: var(--foreground);
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+  }
+
+  .section-shell {
+    @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8;
+  }
+
+  .section-pad {
+    @apply scroll-mt-24 border-t border-border/60 py-16 sm:py-20;
+  }
+
+  .hide-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
