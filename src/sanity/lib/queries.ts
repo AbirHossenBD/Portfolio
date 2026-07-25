@@ -8,7 +8,7 @@ export type HeroData = {
 const HERO_QUERY = `*[_type == "hero"][0]{ portrait, portraitAlt }`
 
 export async function getHeroData(): Promise<HeroData | null> {
-  return client.fetch(HERO_QUERY, {}, { next: { revalidate: 60 } })
+  return client.fetch(HERO_QUERY, {}, { next: { revalidate: 0 } })
 }
 
 export type SkillCategory = 'Programming' | 'Tools' | 'Creative' | 'Currently Learning'
@@ -27,5 +27,5 @@ const SKILLS_QUERY = `*[_type == "skill"] | order(category asc, order asc, name 
 }`
 
 export async function getSkills(): Promise<SkillData[]> {
-  return client.fetch(SKILLS_QUERY, {}, { next: { revalidate: 60 } })
+  return client.fetch(SKILLS_QUERY, {}, { next: { revalidate: 0 } })
 }
