@@ -1,3 +1,5 @@
+// --- Path: src/sanity/schemaTypes/skill.ts ---
+
 import { defineField, defineType } from 'sanity'
 
 export const skill = defineType({
@@ -12,24 +14,29 @@ export const skill = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: 'subtitle',
+      title: 'Subtitle / Details',
+      description: 'Optional detail like "3+ Projects" or "UI/UX Design".',
+      type: 'string',
+    }),
+    defineField({
       name: 'category',
       title: 'Category',
-      type: 'string',
-      options: {
-        list: [
-          { title: 'Programming Languages', value: 'Programming' },
-          { title: 'Frameworks & Tools', value: 'Tools' },
-          { title: 'Creative & Media', value: 'Creative' },
-          { title: 'Currently Learning', value: 'Currently Learning' },
-        ],
-      },
+      description: 'Select which category this skill belongs to.',
+      type: 'reference',
+      to: [{ type: 'skillCategory' }],
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: 'customIcon',
+      title: 'Custom Colored Icon (Image)',
+      description: 'Upload an SVG or PNG to use a fully colored icon. This overrides the standard icon dropdown below.',
+      type: 'image',
+    }),
+    defineField({
       name: 'icon',
-      title: 'Icon',
-      description:
-        "Pick the icon that matches this skill. If nothing fits yet, use 'Generic / Other' — a developer can add a new icon option in code later.",
+      title: 'Standard Icon (Fallback)',
+      description: "Pick a standard icon if you don't have a custom image uploaded.",
       type: 'string',
       options: {
         list: [
@@ -62,21 +69,18 @@ export const skill = defineType({
     defineField({
       name: 'order',
       title: 'Order',
-      description: 'Lower numbers show first within the category. Leave blank to sort by name.',
+      description: 'Lower numbers show first within the category.',
       type: 'number',
     }),
   ],
   orderings: [
     {
-      title: 'Category, then Order',
-      name: 'categoryOrder',
-      by: [
-        { field: 'category', direction: 'asc' },
-        { field: 'order', direction: 'asc' },
-      ],
+      title: 'Order',
+      name: 'orderAsc',
+      by: [{ field: 'order', direction: 'asc' }],
     },
   ],
   preview: {
-    select: { title: 'name', subtitle: 'category' },
+    select: { title: 'name', subtitle: 'category.title' },
   },
 })

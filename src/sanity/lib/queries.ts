@@ -1,3 +1,4 @@
+// --- Path: src/sanity/lib/queries.ts ---
 import { client } from "./client";
 
 export async function getHeroData() {
@@ -22,7 +23,26 @@ export async function getHeroData() {
     "portraitAlt": portrait.alt,
     backgroundImage
   }`;
+  return await client.fetch(query);
+}
 
+export async function getSkillCategories() {
+  const query = `*[_type == "skillCategory"] | order(order asc){
+    _id,
+    title,
+    "categoryId": categoryId.current,
+    description,
+    themeColor,
+    badgeIcon,
+    "customBadgeIconUrl": customBadgeIcon.asset->url,
+    "skills": *[_type == "skill" && references(^._id)] | order(order asc){
+      _id,
+      name,
+      subtitle,
+      icon,
+      "customIconUrl": customIcon.asset->url
+    }
+  }`;
   return await client.fetch(query);
 }
 
@@ -35,6 +55,5 @@ export async function getSkills() {
       level
     }
   }`;
-
   return await client.fetch(query);
 }
