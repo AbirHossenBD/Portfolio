@@ -4,7 +4,6 @@ import { useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import { SubtleWobble } from "./SubtleWobble";
 import ProjectModal from "./ProjectModal";
-import { FaGithub } from "react-icons/fa6";
 import { FiExternalLink } from "react-icons/fi";
 
 const projects = [
@@ -16,7 +15,6 @@ const projects = [
     githubUrl: "#",
     liveUrl: "#",
     color: "from-blue-500/20 to-purple-500/20",
-    // NEW STRUCTURE: Pairs specific text with specific images
     sections: [
       {
         text: "This project was built to solve the complexities of modern digital storefronts. It features a complete custom cart implementation, secure user authentication via NextAuth, and seamless checkout flows powered by Stripe.",
@@ -57,21 +55,25 @@ export default function Projects() {
   const [selectedProject, setSelectedProject] = useState<typeof projects[0] | null>(null);
 
   return (
-    <section id="projects" className="py-24" aria-labelledby="projects-heading">
-      <div className="mx-auto max-w-6xl px-6">
-        <div className="mb-16 max-w-2xl space-y-4">
-          <p className="text-sm font-medium tracking-[0.16em] text-blue-400 uppercase">
+    <section id="projects" className="py-16 lg:py-24" aria-labelledby="projects-heading">
+      {/* Aligned shell to max-w-[1500px] matching Hero, Experience, and Skills */}
+      <div className="mx-auto w-full max-w-375 px-6 sm:px-12 lg:px-16 xl:px-20">
+        
+        {/* Section Header */}
+        <div className="mb-12 max-w-2xl space-y-3">
+          <p className="text-xs font-semibold tracking-[0.2em] text-purple-400 uppercase">
             Projects
           </p>
-          <h2 id="projects-heading" className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
+          <h2 id="projects-heading" className="font-serif-display text-4xl sm:text-5xl font-normal tracking-tight text-white">
             Featured Work
           </h2>
-          <p className="text-lg text-slate-400">
+          <p className="text-base text-slate-400">
             A selection of my recent builds. Exploring complex problems and turning them into simple, elegant digital experiences.
           </p>
         </div>
 
-        <div className="grid gap-8 md:grid-cols-2">
+        {/* Responsive Grid matching main container width */}
+        <div className="grid gap-8 lg:grid-cols-2">
           {projects.map((project) => (
             <div 
               key={project.id} 
@@ -79,8 +81,8 @@ export default function Projects() {
               className="cursor-pointer"
             >
               <SubtleWobble>
-                <div className="group flex h-full flex-col overflow-hidden rounded-2xl border border-slate-800/60 bg-[#1E293B]/50 transition-colors hover:border-slate-600">
-                  <div className="relative h-64 w-full overflow-hidden bg-slate-900">
+                <div className="group flex h-full flex-col overflow-hidden rounded-2xl border border-slate-800/80 bg-slate-900/40 backdrop-blur-sm transition-all duration-300 hover:border-purple-500/40 hover:bg-slate-800/50">
+                  <div className="relative h-64 sm:h-72 w-full overflow-hidden bg-slate-950">
                     <div className={`absolute inset-0 bg-linear-to-br opacity-50 z-10 ${project.color}`} />
                     <img 
                       src={project.sections[0].image} 
@@ -88,25 +90,29 @@ export default function Projects() {
                       className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                   </div>
+                  
                   <div className="flex flex-1 flex-col p-6 sm:p-8">
-                    <h3 className="text-2xl font-bold text-white mb-3">
+                    <h3 className="text-2xl font-semibold text-white mb-3 group-hover:text-purple-300 transition-colors">
                       {project.title}
                     </h3>
-                    <p className="mb-6 text-slate-400">
+                    <p className="mb-6 text-sm sm:text-base leading-relaxed text-slate-400">
                       {project.description}
                     </p>
+
                     <div className="mb-8 flex flex-wrap gap-2">
                       {project.techStack.map((tech) => (
-                        <span key={tech} className="rounded-full bg-slate-800/50 px-3 py-1 text-xs font-medium text-slate-300 border border-slate-700/50">
+                        <span 
+                          key={tech} 
+                          className="rounded-lg bg-slate-800/50 px-3 py-1 text-xs font-mono text-slate-300 border border-slate-800"
+                        >
                           {tech}
                         </span>
                       ))}
                     </div>
-                    <div className="mt-auto flex items-center gap-4 pt-4 border-t border-slate-800">
-                      <span className="flex items-center gap-2 text-sm font-medium text-blue-400 group-hover:text-blue-300">
-                        View Project Details
-                        <FiExternalLink className="text-lg" />
-                      </span>
+
+                    <div className="mt-auto flex items-center gap-2 pt-4 border-t border-slate-800/80 text-sm font-medium text-purple-400 group-hover:text-purple-300 transition-colors">
+                      <span>View Project Details</span>
+                      <FiExternalLink className="text-base transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                     </div>
                   </div>
                 </div>

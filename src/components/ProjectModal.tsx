@@ -39,9 +39,7 @@ export default function ProjectModal({
     return () => { document.body.style.overflow = "unset"; };
   }, [project]);
 
-  // Shared navigation logic: moves to the given section index with the
-  // same smooth snap + cooldown used by both the wheel handler and the
-  // up/down triangle controls.
+  // Shared navigation logic
   const goToIndex = (nextIndex: number) => {
     if (!project) return;
     if (isScrollingRef.current) return;
@@ -57,10 +55,10 @@ export default function ProjectModal({
 
     setTimeout(() => {
       isScrollingRef.current = false;
-    }, 500); // 500ms lock matches the smooth transition duration
+    }, 500);
   };
 
-  // Custom Wheel Handler for smooth, click-to-slide snapping behavior
+  // Custom Wheel Handler for smooth snapping
   useEffect(() => {
     const container = containerRef.current;
     if (!container || !project) return;
@@ -86,7 +84,7 @@ export default function ProjectModal({
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         onClick={onClose}
-        className="absolute inset-0 bg-slate-950/60 backdrop-blur-sm"
+        className="absolute inset-0 bg-slate-950/70 backdrop-blur-md"
       />
 
       {/* Glassmorphism Modal Container */}
@@ -94,29 +92,29 @@ export default function ProjectModal({
         initial={{ opacity: 0, y: 20, scale: 0.95 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         exit={{ opacity: 0, y: 20, scale: 0.95 }}
-        className="relative flex flex-col w-full max-w-7xl h-[90vh] overflow-hidden rounded-2xl border border-slate-700/50 bg-[#0F172A]/40 backdrop-blur-2xl shadow-2xl lg:flex-row"
+        className="relative flex flex-col w-full max-w-7xl h-[90vh] overflow-hidden rounded-2xl border border-slate-700/50 bg-[#0F172A]/80 backdrop-blur-2xl shadow-2xl lg:flex-row"
       >
         
         {/* Close Button */}
         <button 
           onClick={onClose}
-          className="absolute left-6 top-6 z-20 rounded-full bg-slate-800/80 p-2.5 text-slate-400 transition-colors hover:bg-slate-700 hover:text-white"
+          className="absolute left-2 top-2 z-20 rounded-full bg-slate-800/0 p-2 text-slate-400 transition-colors hover:text-white hover:border hover:border-white-500 focus:outline-none"
         >
           <FaXmark className="text-xl" />
         </button>
 
         {/* LEFT PANEL: Fixed Layout, Dynamic Text */}
-        <div className="flex w-full flex-col p-10 pt-24 pb-32 lg:w-1/2 lg:border-r lg:border-slate-800/50">
+        <div className="flex w-full flex-col p-8 sm:p-10 pt-24 pb-32 lg:w-1/2 lg:border-r lg:border-slate-800/50">
           
-          <h2 className="mb-4 text-4xl font-extrabold tracking-tight text-white sm:text-5xl">
+          <h2 className="mb-4 text-3xl font-extrabold tracking-tight text-white sm:text-5xl font-serif-display">
             {project.title}
           </h2>
           
-          <div className="mb-10 flex flex-wrap gap-2">
+          <div className="mb-8 flex flex-wrap gap-2">
             {project.techStack.map((tech) => (
               <span 
                 key={tech} 
-                className="rounded-full bg-blue-500/10 px-4 py-1.5 text-xs font-semibold text-blue-400 border border-blue-500/20"
+                className="rounded-full bg-purple-500/10 px-4 py-1.5 text-xs font-semibold text-purple-300 border border-purple-500/20"
               >
                 {tech}
               </span>
@@ -131,7 +129,7 @@ export default function ProjectModal({
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -15 }}
                 transition={{ duration: 0.4, ease: "easeOut" }}
-                className="prose prose-invert max-w-none text-slate-300 leading-relaxed text-lg"
+                className="prose prose-invert max-w-none text-slate-300 leading-relaxed text-base sm:text-lg"
               >
                 <p>{project.sections[activeIndex].text}</p>
               </motion.div>
@@ -140,10 +138,10 @@ export default function ProjectModal({
 
         </div>
 
-        {/* RIGHT PANEL: Controlled Scrollable Images */}
+        {/* RIGHT PANEL: Controlled Scrollable Images with Hidden Scrollbars */}
         <div 
           ref={containerRef}
-          className="relative flex w-full flex-1 flex-col overflow-y-auto overflow-x-hidden hide-scrollbar lg:w-1/2"
+          className="relative flex w-full flex-1 flex-col overflow-y-auto overflow-x-hidden hide-scrollbar scrollbar-none [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden lg:w-1/2"
         >
           <div className="space-y-32 py-[30vh] px-8 lg:px-14">
             {project.sections.map((section, index) => (
@@ -152,8 +150,8 @@ export default function ProjectModal({
                 // @ts-ignore
                 ref={(el) => (imageRefs.current[index] = el)}
                 animate={{ 
-                  scale: activeIndex === index ? 1.05 : 0.85,
-                  opacity: activeIndex === index ? 1 : 0.4,
+                  scale: activeIndex === index ? 1.02 : 0.88,
+                  opacity: activeIndex === index ? 1 : 0.35,
                 }}
                 transition={{ 
                   duration: 0.6, 
@@ -171,10 +169,10 @@ export default function ProjectModal({
           </div>
         </div>
 
-        {/* Section Nav: up/down triangle control, replaces the scrollbar */}
+        {/* Section Nav: up/down triangle control */}
         {project.sections.length > 1 && (
           <div className="pointer-events-none absolute inset-y-0 right-3 z-20 hidden items-center lg:right-5 lg:flex">
-            <div className="pointer-events-auto flex flex-col items-center gap-1 rounded-full border border-slate-700/50 bg-slate-900/60 p-1.5 backdrop-blur-md shadow-lg">
+            <div className="pointer-events-auto flex flex-col items-center gap-1 rounded-full border border-slate-700/60 bg-slate-900/80 p-1.5 backdrop-blur-md shadow-xl">
               <button
                 type="button"
                 onClick={() => goToIndex(activeIndex - 1)}
@@ -189,7 +187,7 @@ export default function ProjectModal({
                   className={`transition-colors ${
                     activeIndex === 0
                       ? "fill-slate-600"
-                      : "fill-slate-400 group-hover:fill-accent"
+                      : "fill-slate-400 group-hover:fill-purple-400"
                   }`}
                 >
                   <path d="M5 0L10 7H0L5 0Z" />
@@ -202,7 +200,7 @@ export default function ProjectModal({
                     key={index}
                     className={`rounded-full transition-all duration-300 ${
                       activeIndex === index
-                        ? "h-3.5 w-1 bg-accent"
+                        ? "h-3.5 w-1 bg-purple-400"
                         : "h-1 w-1 bg-slate-600"
                     }`}
                   />
@@ -223,7 +221,7 @@ export default function ProjectModal({
                   className={`transition-colors ${
                     activeIndex === project.sections.length - 1
                       ? "fill-slate-600"
-                      : "fill-slate-400 group-hover:fill-accent"
+                      : "fill-slate-400 group-hover:fill-purple-400"
                   }`}
                 >
                   <path d="M5 7L0 0H10L5 7Z" />
@@ -234,23 +232,23 @@ export default function ProjectModal({
         )}
 
         {/* BOTTOM FIXED PANEL: Links */}
-        <div className="absolute inset-x-0 bottom-0 z-20 flex justify-center gap-6 p-6 bg-linear-to-t from-[#0F172A]/90 to-transparent">
+        <div className="absolute inset-x-0 bottom-0 z-20 flex justify-center gap-4 sm:gap-6 p-6 bg-linear-to-t from-[#0F172A] via-[#0F172A]/80 to-transparent">
           <a 
             href={project.liveUrl} 
             target="_blank"
             rel="noreferrer"
-            className="flex items-center gap-2.5 rounded-2xl bg-blue-600 px-8 py-3.5 text-base font-semibold text-white transition-colors hover:bg-blue-500 shadow-lg"
+            className="flex items-center gap-2 rounded-xl bg-purple-600 px-6 sm:px-8 py-3 text-sm sm:text-base font-semibold text-white transition-all hover:bg-purple-500 shadow-lg shadow-purple-600/30"
           >
             Live Demo
-            <FiExternalLink className="text-xl" />
+            <FiExternalLink className="text-lg" />
           </a>
           <a 
             href={project.githubUrl} 
             target="_blank"
             rel="noreferrer"
-            className="flex items-center gap-2.5 rounded-2xl bg-slate-800/90 px-8 py-3.5 text-base font-semibold text-white transition-colors hover:bg-slate-700 shadow-lg backdrop-blur-sm"
+            className="flex items-center gap-2 rounded-xl border border-slate-700 bg-slate-800/90 px-6 sm:px-8 py-3 text-sm sm:text-base font-semibold text-slate-200 transition-all hover:bg-slate-700 hover:text-white shadow-lg backdrop-blur-sm"
           >
-            <FaGithub className="text-xl" />
+            <FaGithub className="text-lg" />
             Source Code
           </a>
         </div>

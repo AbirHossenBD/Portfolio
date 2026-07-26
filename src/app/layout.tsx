@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { DM_Sans, JetBrains_Mono, Syne } from "next/font/google";
+import Script from "next/script";
+import { DM_Sans, JetBrains_Mono, Syne, Playfair_Display } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 import { RootWrapper } from "@/components/root-wrapper";
 import { GlobalParticles } from "@/components/GlobalParticles";
@@ -19,6 +20,12 @@ const dmSans = DM_Sans({
 
 const jetbrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const playfair = Playfair_Display({
+  variable: "--font-playfair",
   subsets: ["latin"],
   display: "swap",
 });
@@ -49,16 +56,16 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${syne.variable} ${dmSans.variable} ${jetbrainsMono.variable} dark h-full`}
+      className={`${syne.variable} ${dmSans.variable} ${jetbrainsMono.variable} ${playfair.variable} dark h-full`}
       suppressHydrationWarning
     >
-      <head>
-        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
-      </head>
-      <body className="relative min-h-full">
-        {/* Full-screen interactive particle background */}
+      <body className="relative min-h-full bg-background text-foreground">
+        <Script
+          id="theme-init"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{ __html: themeInitScript }}
+        />
         <GlobalParticles />
-
         <ThemeProvider>
           <RootWrapper>{children}</RootWrapper>
         </ThemeProvider>

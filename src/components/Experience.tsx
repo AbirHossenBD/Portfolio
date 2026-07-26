@@ -16,48 +16,48 @@ export default function Experience() {
   return (
     <section
       id="experience"
-      className="section-pad"
+      className="py-16 lg:py-24"
       aria-labelledby="experience-heading"
     >
-      <div className="section-shell">
+      <div className="mx-auto w-full max-w-375 px-6 sm:px-12 lg:px-16 xl:px-20">
         <div className="mb-10 max-w-2xl space-y-3">
-          <p className="text-sm font-medium tracking-[0.16em] text-accent uppercase">
+          <p className="text-xs font-semibold tracking-[0.2em] text-purple-400 uppercase">
             Experience
           </p>
           <h2
             id="experience-heading"
-            className="font-display text-3xl font-semibold tracking-tight text-foreground sm:text-4xl"
+            className="font-serif-display text-4xl sm:text-5xl font-normal tracking-tight text-white"
           >
             Timeline
           </h2>
         </div>
 
-        <ol className="relative space-y-8 border-l border-border pl-6 sm:pl-8">
+        <ol className="relative max-w-4xl space-y-8 border-l border-slate-800 pl-6 sm:pl-8 ml-2 sm:ml-4">
           {experiences.map((item) => (
             <li key={item.role} className="relative">
               <span
                 aria-hidden
-                className="absolute top-1.5 -left-[1.91rem] size-3 rounded-full border-2 border-accent bg-background sm:-left-[2.41rem]"
+                className="absolute top-2 left-[-1.91rem] size-3 rounded-full border-2 border-indigo-500 bg-[#05060A] sm:left-[-2.41rem]"
               />
-              <div className="rounded-2xl border border-border bg-surface p-6">
+              <div className="rounded-2xl border border-slate-800/80 bg-slate-900/40 p-6 sm:p-8 backdrop-blur-sm">
                 <div className="flex flex-col gap-2 sm:flex-row sm:items-baseline sm:justify-between">
-                  <h3 className="font-display text-xl font-semibold text-foreground">
+                  <h3 className="text-xl font-semibold text-slate-100">
                     {item.role}
                   </h3>
-                  <p className="text-sm font-medium text-accent-secondary">
+                  <p className="text-sm font-medium text-purple-400">
                     {item.period}
                   </p>
                 </div>
-                <p className="mt-3 text-sm leading-relaxed text-muted sm:text-base">
+                <p className="mt-3 text-sm sm:text-base leading-relaxed text-slate-400">
                   {item.summary}
                 </p>
                 <ul className="mt-4 space-y-2">
                   {item.highlights.map((highlight) => (
                     <li
                       key={highlight}
-                      className="flex gap-2 text-sm text-muted"
+                      className="flex items-center gap-2.5 text-sm text-slate-400"
                     >
-                      <span className="mt-2 size-1.5 shrink-0 rounded-full bg-accent" />
+                      <span className="size-1.5 shrink-0 rounded-full bg-indigo-500" />
                       {highlight}
                     </li>
                   ))}

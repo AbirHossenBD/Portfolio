@@ -4,7 +4,7 @@ import { skill } from "./skill";
 import { experience } from "./experience";
 import { education } from "./education";
 import { certification } from "./certification";
-import { hero } from "./hero";
+import hero from "./hero";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [

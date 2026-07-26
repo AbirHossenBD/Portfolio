@@ -1,27 +1,34 @@
 "use client";
 
-import { useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Mail, Sparkles } from "lucide-react";
+import { ArrowRight, Download, Atom, Sparkles, Code2 } from "lucide-react";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
 
-const HEADLINE = "Abir Hossen";
+const NAME_FIRST = "Abir";
+const NAME_LAST = "Hossen";
 const INITIALS = "AH";
+
+const DEFAULT_TAGLINE = "HI, I'M";
+const DEFAULT_SUBHEADING = "I'm building my future through software.";
+const DEFAULT_HIGHLIGHT = "future";
+const DEFAULT_DESC =
+  "The digital world feels like home to me. I enjoy creating things people can experience. From websites to AI and someday games, I love learning how great software is created—one project at a time.";
+const DEFAULT_WATERMARK = `// curious mind
+// patient enough
+// to solve problems
+// honest in the process
+
+while (learning) {
+  build();
+  grow();
+  repeat();
+}`;
 
 const containerVariants: Variants = {
   hidden: {},
   visible: {
-    transition: { staggerChildren: 0.06, delayChildren: 0.15 },
-  },
-};
-
-const wordVariants: Variants = {
-  hidden: { opacity: 0, y: 24 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] },
+    transition: { staggerChildren: 0.08, delayChildren: 0.1 },
   },
 };
 
@@ -30,253 +37,255 @@ const fadeUp: Variants = {
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1], delay: 0.4 },
+    transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] },
   },
 };
 
-const imageReveal: Variants = {
-  hidden: { opacity: 0, scale: 0.94, y: 20 },
-  visible: {
-    opacity: 1,
-    scale: 1,
-    y: 0,
-    transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.25 },
-  },
-};
-
-function Particles({ disabled }: { disabled: boolean }) {
-  const dots = useMemo(
-    () =>
-      Array.from({ length: 18 }, (_, index) => ({
-        id: index,
-        left: `${(index * 17 + 9) % 100}%`,
-        top: `${(index * 23 + 11) % 100}%`,
-        size: 2 + (index % 3),
-        duration: 6 + (index % 5),
-        delay: (index % 7) * 0.35,
-      })),
-    [],
-  );
-
-  if (disabled) return null;
-
-  return (
-    <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
-      {dots.map((dot) => (
-        <motion.span
-          key={dot.id}
-          className="absolute rounded-full bg-accent/50"
-          style={{
-            left: dot.left,
-            top: dot.top,
-            width: dot.size,
-            height: dot.size,
-          }}
-          animate={{ opacity: [0.15, 0.7, 0.15], y: [0, -12, 0] }}
-          transition={{
-            duration: dot.duration,
-            delay: dot.delay,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        />
-      ))}
-    </div>
-  );
+export interface StatusItem {
+  label: string;
+  iconType?: "atom" | "sparkles" | "code" | string;
 }
 
-function ProfileCard({
-  disabled,
-  imageUrl,
-  imageAlt,
-}: {
-  disabled: boolean;
-  imageUrl?: string;
-  imageAlt?: string;
-}) {
-  return (
-    <motion.div
-      initial={disabled ? false : "hidden"}
-      animate="visible"
-      variants={imageReveal}
-      className="relative w-full max-w-sm sm:max-w-md lg:max-w-lg"
-    >
-      {/* Floating Badges */}
-      <motion.div
-        initial={{ opacity: 0, y: 15 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.6, duration: 0.5 }}
-        className="absolute -top-3 -right-2 sm:-right-4 z-20 flex items-center gap-2.5 rounded-2xl border border-border/60 bg-surface-elevated/80 px-3.5 py-2 shadow-xl backdrop-blur-md"
-      >
-        <span className="relative flex h-2.5 w-2.5">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-          <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500" />
-        </span>
-        <span className="text-xs font-semibold text-foreground">
-          Available for Hire
-        </span>
-      </motion.div>
+export interface HeroProps {
+  topTagline?: string;
+  subheadingText?: string;
+  highlightedWord?: string;
+  description?: string;
+  statusItems?: StatusItem[];
+  primaryCtaText?: string;
+  primaryCtaLink?: string;
+  secondaryCtaText?: string;
+  secondaryCtaLink?: string;
+  watermarkCode?: string;
+  heroImageUrl?: string;
+  heroImageAlt?: string;
+  backgroundImageUrl?: string;
+  glowColor?: string;
+}
 
-      <motion.div
-        initial={{ opacity: 0, y: -15 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.75, duration: 0.5 }}
-        className="absolute -bottom-3 -left-2 sm:-left-4 z-20 flex items-center gap-2.5 rounded-2xl border border-border/60 bg-surface-elevated/80 px-3.5 py-2 shadow-xl backdrop-blur-md"
-      >
-        <div className="flex items-center justify-center rounded-lg bg-accent/20 p-1.5 text-accent">
-          <Sparkles className="size-3.5" />
-        </div>
-        <div>
-          <p className="text-[10px] font-bold uppercase tracking-wider text-muted">Focus</p>
-          <p className="text-xs font-semibold text-foreground">React • Next.js • AI</p>
-        </div>
-      </motion.div>
-
-      {/* Floating Portrait Image Container */}
-      <motion.div
-        animate={disabled ? undefined : { y: [0, -10, 0] }}
-        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-        className="relative w-full"
-      >
-        <div className="relative aspect-4/5 w-full overflow-hidden rounded-[2.5rem]">
-          {imageUrl ? (
-            <Image
-              src={imageUrl}
-              alt={imageAlt || "Portrait"}
-              fill
-              sizes="(min-width: 1280px) 480px, (min-width: 1024px) 400px, 100vw"
-              className="object-cover"
-              style={{
-                WebkitMaskImage: 'linear-gradient(to bottom, black 75%, transparent 100%)',
-                maskImage: 'linear-gradient(to bottom, black 75%, transparent 100%)',
-                filter: 'drop-shadow(0 10px 25px rgba(56, 189, 248, 0.15))',
-              }}
-              priority
-            />
-          ) : (
-            <div className="absolute inset-0 flex items-center justify-center bg-linear-to-br from-accent to-accent-secondary bg-clip-text font-display text-7xl font-semibold text-transparent">
-              {INITIALS}
-            </div>
-          )}
-        </div>
-      </motion.div>
-    </motion.div>
-  );
+function renderStatusIcon(type?: string) {
+  switch (type) {
+    case "atom":
+      return <Atom className="size-4 text-indigo-400" />;
+    case "sparkles":
+      return <Sparkles className="size-4 text-purple-400" />;
+    default:
+      return <Code2 className="size-4 text-indigo-400" />;
+  }
 }
 
 export default function Hero({
+  topTagline = DEFAULT_TAGLINE,
+  subheadingText = DEFAULT_SUBHEADING,
+  highlightedWord = DEFAULT_HIGHLIGHT,
+  description = DEFAULT_DESC,
+  statusItems = [
+    { label: "Learning React", iconType: "atom" },
+    { label: "Exploring AI", iconType: "sparkles" },
+    { label: "Building this portfolio", iconType: "code" },
+  ],
+  primaryCtaText = "Explore My Work",
+  primaryCtaLink = "#projects",
+  secondaryCtaText = "Download Resume",
+  secondaryCtaLink = "/resume.pdf",
+  watermarkCode = DEFAULT_WATERMARK,
   heroImageUrl,
   heroImageAlt,
-}: {
-  heroImageUrl?: string;
-  heroImageAlt?: string;
-}) {
+  backgroundImageUrl,
+  glowColor = "rgba(147, 51, 234, 0.12)",
+}: HeroProps) {
   const reduceMotion = useReducedMotion();
-  const words = HEADLINE.split(" ");
+
+  const renderSubheading = () => {
+    if (!highlightedWord || !subheadingText.includes(highlightedWord)) {
+      return subheadingText;
+    }
+    const parts = subheadingText.split(highlightedWord);
+    return (
+      <>
+        {parts[0]}
+        <span className="italic font-serif-display text-purple-400 font-normal">
+          {highlightedWord}
+        </span>
+        {parts[1]}
+      </>
+    );
+  };
 
   return (
     <section
       id="about"
-      className="relative flex min-h-[calc(100dvh-4rem)] w-full items-center justify-center overflow-hidden py-12 lg:py-20"
+      className="relative flex min-h-[calc(100dvh-4rem)] w-full items-center justify-center overflow-hidden py-12 lg:py-20 bg-transparent"
       aria-labelledby="hero-heading"
     >
-      {/* Background Grid Pattern */}
-      <div 
+      {/* Dynamic Purple Ambient Glow */}
+      <div
         aria-hidden
-        className="absolute inset-0 -z-20 h-full w-full bg-[radial-gradient(#80808022_1px,transparent_1px)] [bg-size:32px_32px] mask-[radial-gradient(ellipse_70%_60%_at_50%_50%,#000_75%,transparent_100%)]" 
+        className="absolute right-[10%] top-1/2 -translate-y-1/2 -z-10 h-125 w-125 rounded-full blur-[160px] pointer-events-none"
+        style={{ backgroundColor: glowColor }}
       />
 
-      {/* Ambient Glows */}
-      <div 
-        aria-hidden 
-        className="absolute -left-28 top-1/4 -z-10 h-112.5 w-112.5 lg:h-150wlg:w-150nded-full bg-accent/20 blur-[140px] pointer-events-none" 
-      />
-      <div 
-        aria-hidden 
-        className="absolute -right-28 bottom-1/4 -z-10 h-112.5 w-112.5 lg:h-150 lg:w-150 rounded-full bg-accent-secondary/15 blur-[150px] pointer-events-none" 
-      />
-
-      <Particles disabled={!!reduceMotion} />
-
-      {/* --- FULL-BLEED ULTRA-WIDE CONTAINER --- */}
-      <div className="relative z-10 mx-auto w-full max-w-[1600px] px-6 sm:px-12 lg:px-16 xl:px-20 grid gap-12 py-16 sm:py-20 lg:grid-cols-[1.25fr_0.75fr] lg:items-center lg:gap-12 xl:gap-20">
+      {/* Main Grid */}
+      <div className="relative z-10 mx-auto w-full max-w-375 px-6 sm:px-12 lg:px-16 xl:px-20 grid gap-12 lg:grid-cols-[1.15fr_0.85fr] lg:items-center xl:gap-16">
         
-        {/* FAR LEFT: Text Block (Expands up to max-w-3xl to fill middle space) */}
+        {/* LEFT COLUMN */}
         <motion.div
           initial={reduceMotion ? false : "hidden"}
           animate="visible"
-          className="order-2 flex flex-col gap-6 lg:order-1 lg:max-w-3xl xl:max-w-4xl"
+          variants={containerVariants}
+          className="order-2 flex flex-col gap-6 lg:order-1 lg:max-w-3xl"
         >
+          <motion.p
+            variants={fadeUp}
+            className="text-xs font-semibold uppercase tracking-[0.2em] text-purple-400"
+          >
+            {topTagline}
+          </motion.p>
+
           <motion.h1
             id="hero-heading"
-            variants={containerVariants}
-            className="font-display text-5xl leading-[1.02] font-semibold tracking-tight text-foreground sm:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl"
+            variants={fadeUp}
+            className="font-serif-display text-6xl sm:text-7xl lg:text-8xl xl:text-9xl font-normal leading-[0.92] tracking-tight text-white"
           >
-            {words.map((word, index) => (
-              <motion.span
-                key={`${word}-${index}`}
-                variants={wordVariants}
-                className="mr-[0.28em] inline-block last:mr-0"
-              >
-                {word}
-              </motion.span>
-            ))}
+            {NAME_FIRST}<br />
+            {NAME_LAST}
+            <span className="inline-block text-indigo-500 ml-1">.</span>
           </motion.h1>
 
           <motion.p
             variants={fadeUp}
-            className="text-base font-medium text-accent sm:text-lg lg:text-xl xl:text-2xl"
+            className="text-xl sm:text-2xl font-light text-slate-200 tracking-wide"
           >
-            Software Engineering Student | Front-End Developer | Creative
-            Technologist
+            {renderSubheading()}
           </motion.p>
+
+          <div className="h-px w-12 bg-slate-800 my-1" />
 
           <motion.p
             variants={fadeUp}
-            className="text-base leading-relaxed text-muted sm:text-lg lg:text-xl xl:text-2xl max-w-3xl"
+            className="text-sm sm:text-base leading-relaxed text-slate-400 font-normal max-w-lg"
           >
-            I build thoughtful digital experiences at the intersection of
-            software engineering and creative technology — from polished web
-            interfaces to cinematic visual storytelling.
+            {description}
           </motion.p>
 
-          <motion.p
-            variants={fadeUp}
-            className="text-base leading-relaxed text-muted sm:text-lg lg:text-xl xl:text-2xl max-w-3xl"
-          >
-            Currently a Software Engineering student at Daffodil International
-            University, I turn ideas into reliable, user-first products —
-            breaking complex problems into clear systems, then shipping
-            interfaces that feel intuitive and intentional. My toolkit spans
-            web development, Python, and emerging AI workflows.
-          </motion.p>
+          {statusItems && statusItems.length > 0 && (
+            <motion.div
+              variants={fadeUp}
+              className="flex flex-wrap items-center gap-3 text-xs sm:text-sm text-slate-300 py-1"
+            >
+              {statusItems.map((item, idx) => (
+                <div key={idx} className="flex items-center gap-2">
+                  {renderStatusIcon(item.iconType)}
+                  <span>{item.label}</span>
+                  {idx < statusItems.length - 1 && (
+                    <span className="text-slate-700 ml-2">•</span>
+                  )}
+                </div>
+              ))}
+            </motion.div>
+          )}
 
           <motion.div
             variants={fadeUp}
-            className="flex flex-col gap-3 pt-4 sm:flex-row sm:items-center"
+            className="flex flex-wrap items-center gap-4 pt-2"
           >
             <Link
-              href="#projects"
-              className="group inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-accent px-7 text-base font-semibold text-accent-foreground shadow-lg transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              href={primaryCtaLink || "#projects"}
+              className="group inline-flex h-12 items-center justify-center gap-2.5 rounded-xl bg-indigo-600 px-6 text-sm font-medium text-white shadow-lg shadow-indigo-600/30 transition-all hover:bg-indigo-500 hover:shadow-indigo-500/40 focus:outline-none"
             >
-              View Projects
-              <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
+              {primaryCtaText}
+              <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
             </Link>
-            <Link
-              href="#contact"
-              className="group inline-flex h-12 items-center justify-center gap-2 rounded-xl border border-border bg-surface px-7 text-base font-medium text-foreground transition hover:border-accent/40 hover:bg-surface-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+
+            <a
+              href={secondaryCtaLink || "/resume.pdf"}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex h-12 items-center justify-center gap-2 rounded-xl border border-slate-800 bg-slate-900/50 px-5 text-sm font-medium text-slate-200 transition-all hover:border-slate-700 hover:bg-slate-800 focus:outline-none"
             >
-              <Mail className="size-4" />
-              Contact Me
-            </Link>
+              <Download className="size-4 text-slate-400" />
+              {secondaryCtaText}
+            </a>
           </motion.div>
         </motion.div>
 
-        {/* FAR RIGHT: Image Column (Anchored to the right margin) */}
-        <div className="order-1 flex justify-center lg:order-2 lg:justify-self-end w-full">
-          <ProfileCard disabled={!!reduceMotion} imageUrl={heroImageUrl} imageAlt={heroImageAlt} />
+        {/* RIGHT COLUMN */}
+        <div className="order-1 flex justify-center lg:order-2 lg:justify-self-end w-full relative">
+          
+          {/* Watermark Code */}
+          {watermarkCode && (
+            <div
+              aria-hidden
+              className="absolute -right-50 top-30 hidden lg:block font-mono text-xs leading-relaxed text-slate-600/25 select-none pointer-events-none z-0 whitespace-pre"
+              style={{
+                      WebkitMaskImage: "linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%)",
+                      maskImage: "linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%)",
+                    }}
+            >
+              {watermarkCode}
+            </div>
+          )}
+
+          <motion.div
+            initial={{ opacity: 0, scale: 0.96 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="relative w-full max-w-sm lg:max-w-md xl:max-w-lg z-10"
+          >
+            {/* Optional Background Landscape/Art Layer behind Portrait */}
+            {backgroundImageUrl && (
+              <div aria-hidden className="absolute inset-0 -z-10 overflow-hidden opacity-30">
+                <Image
+                  src={backgroundImageUrl}
+                  alt="Background atmosphere"
+                  fill
+                  className="object-cover object-center filter blur-[1px]"
+                  style={{
+                    WebkitMaskImage:
+                      "radial-gradient(circle, black 40%, transparent 80%)",
+                    maskImage:
+                      "radial-gradient(circle, black 40%, transparent 80%)",
+                  }}
+                />
+              </div>
+            )}
+
+            {/* Borderless Cutout Portrait */}
+            <div className="relative aspect-4/5 w-full overflow-hidden">
+              {heroImageUrl ? (
+                <Image
+                  src={heroImageUrl}
+                  alt={heroImageAlt || `Portrait of ${NAME_FIRST} ${NAME_LAST}`}
+                  fill
+                  sizes="(min-width: 1280px) 520px, (min-width: 1024px) 440px, 100vw"
+                  className="object-cover object-top filter contrast-[1.05]"
+                  style={{
+                    WebkitMaskImage:
+                      "linear-gradient(to bottom, black 70%, transparent 100%)",
+                    maskImage:
+                      "linear-gradient(to bottom, black 70%, transparent 100%)",
+                  }}
+                  priority
+                />
+              ) : (
+                <div className="absolute inset-0 flex items-center justify-center font-serif-display text-8xl font-light text-slate-700/50">
+                  {INITIALS}
+                </div>
+              )}
+            </div>
+          </motion.div>
         </div>
 
+      </div>
+
+      {/* Scroll Indicator */}
+      <div className="absolute bottom-8 left-8 hidden lg:flex flex-col items-center gap-2 z-20">
+        <span className="text-[10px] tracking-[0.25em] font-mono text-slate-500 uppercase -rotate-90 origin-left translate-x-3 mb-6">
+          SCROLL
+        </span>
+        <div className="h-2 w-2 rounded-full border border-slate-700 flex items-center justify-center">
+          <div className="h-1 w-1 rounded-full bg-purple-400" />
+        </div>
       </div>
     </section>
   );

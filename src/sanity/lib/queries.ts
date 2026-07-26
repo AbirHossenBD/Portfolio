@@ -1,31 +1,40 @@
-import { client } from './client'
+import { client } from "./client";
 
-export type HeroData = {
-  portrait: { asset?: { _ref: string } } | null
-  portraitAlt: string | null
+export async function getHeroData() {
+  const query = `*[_type == "hero"][0]{
+    logoText,
+    logoImage,
+    topTagline,
+    subheadingText,
+    highlightedWord,
+    description,
+    statusItems[]{
+      label,
+      icon
+    },
+    primaryCtaText,
+    primaryCtaLink,
+    secondaryCtaText,
+    secondaryCtaLink,
+    watermarkCode,
+    glowColor,
+    portrait,
+    "portraitAlt": portrait.alt,
+    backgroundImage
+  }`;
+
+  return await client.fetch(query);
 }
 
-const HERO_QUERY = `*[_type == "hero"][0]{ portrait, portraitAlt }`
+export async function getSkills() {
+  const query = `*[_type == "skillCategory"] | order(_createdAt asc){
+    title,
+    skills[]{
+      name,
+      icon,
+      level
+    }
+  }`;
 
-export async function getHeroData(): Promise<HeroData | null> {
-  return client.fetch(HERO_QUERY, {}, { next: { revalidate: 0 } })
-}
-
-export type SkillCategory = 'Programming' | 'Tools' | 'Creative' | 'Currently Learning'
-
-export type SkillData = {
-  _id: string
-  name: string
-  category: SkillCategory
-  icon: string | null
-  order: number | null
-}
-
-// Sorted so consumers can group-by-category directly without re-sorting.
-const SKILLS_QUERY = `*[_type == "skill"] | order(category asc, order asc, name asc){
-  _id, name, category, icon, order
-}`
-
-export async function getSkills(): Promise<SkillData[]> {
-  return client.fetch(SKILLS_QUERY, {}, { next: { revalidate: 0 } })
+  return await client.fetch(query);
 }
