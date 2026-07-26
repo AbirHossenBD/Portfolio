@@ -111,7 +111,7 @@ function ProfileCard({
         transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
         className="relative"
       >
-        <div className="relative aspect-4/5 w-80 overflow-hidden rounded-[2.5rem] sm:w-[28rem] lg:w-[34rem]">
+        <div className="relative aspect-4/5 w-80 overflow-hidden rounded-[2.5rem] sm:w-md lg:w-136">
           {imageUrl ? (
             <Image
               src={imageUrl}
