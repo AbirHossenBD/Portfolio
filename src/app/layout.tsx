@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { DM_Sans, JetBrains_Mono, Syne } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
+import { RootWrapper } from "@/components/root-wrapper";
+import { GlobalParticles } from "@/components/GlobalParticles";
 import "./globals.css";
 
 const syne = Syne({
@@ -53,8 +55,13 @@ export default function RootLayout({
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>
-      <body className="min-h-full">
-        <ThemeProvider>{children}</ThemeProvider>
+      <body className="relative min-h-full">
+        {/* Full-screen interactive particle background */}
+        <GlobalParticles />
+
+        <ThemeProvider>
+          <RootWrapper>{children}</RootWrapper>
+        </ThemeProvider>
       </body>
     </html>
   );

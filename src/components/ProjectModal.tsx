@@ -189,7 +189,7 @@ export default function ProjectModal({
                   className={`transition-colors ${
                     activeIndex === 0
                       ? "fill-slate-600"
-                      : "fill-slate-400 group-hover:fill-[var(--accent)]"
+                      : "fill-slate-400 group-hover:fill-accent"
                   }`}
                 >
                   <path d="M5 0L10 7H0L5 0Z" />
@@ -202,7 +202,7 @@ export default function ProjectModal({
                     key={index}
                     className={`rounded-full transition-all duration-300 ${
                       activeIndex === index
-                        ? "h-3.5 w-1 bg-[var(--accent)]"
+                        ? "h-3.5 w-1 bg-accent"
                         : "h-1 w-1 bg-slate-600"
                     }`}
                   />
@@ -223,7 +223,7 @@ export default function ProjectModal({
                   className={`transition-colors ${
                     activeIndex === project.sections.length - 1
                       ? "fill-slate-600"
-                      : "fill-slate-400 group-hover:fill-[var(--accent)]"
+                      : "fill-slate-400 group-hover:fill-accent"
                   }`}
                 >
                   <path d="M5 7L0 0H10L5 7Z" />
@@ -234,7 +234,7 @@ export default function ProjectModal({
         )}
 
         {/* BOTTOM FIXED PANEL: Links */}
-        <div className="absolute inset-x-0 bottom-0 z-20 flex justify-center gap-6 p-6 bg-gradient-to-t from-[#0F172A]/90 to-transparent">
+        <div className="absolute inset-x-0 bottom-0 z-20 flex justify-center gap-6 p-6 bg-linear-to-t from-[#0F172A]/90 to-transparent">
           <a 
             href={project.liveUrl} 
             target="_blank"
