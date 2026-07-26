@@ -106,47 +106,31 @@ function ProfileCard({
       variants={imageReveal}
       className="relative"
     >
-      {/* ambient glow behind the card */}
-      <div
-        aria-hidden
-        className="absolute -inset-6 -z-10 rounded-4xl bg-linear-to-br from-accent/25 via-accent-secondary/15 to-transparent blur-2xl"
-      />
-
       <motion.div
         animate={disabled ? undefined : { y: [0, -10, 0] }}
         transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-        className="relative aspect-4/5 w-64 overflow-hidden rounded-3xl border border-border bg-surface/70 shadow-2xl shadow-black/40 backdrop-blur-sm sm:w-72 lg:w-80"
+        className="relative"
       >
-        {/* corner accents for a technical / creative-portfolio feel */}
-        <span aria-hidden className="absolute top-4 left-4 h-6 w-6 rounded-tl-lg border-t-2 border-l-2 border-accent/60" />
-        <span aria-hidden className="absolute top-4 right-4 h-6 w-6 rounded-tr-lg border-t-2 border-r-2 border-accent/60" />
-        <span aria-hidden className="absolute bottom-4 left-4 h-6 w-6 rounded-bl-lg border-b-2 border-l-2 border-accent-secondary/60" />
-        <span aria-hidden className="absolute bottom-4 right-4 h-6 w-6 rounded-br-lg border-b-2 border-r-2 border-accent-secondary/60" />
-
-        {imageUrl ? (
-          <Image
-            src={imageUrl}
-            alt={imageAlt || "Portrait"}
-            fill
-            sizes="(min-width: 1024px) 320px, (min-width: 640px) 288px, 256px"
-            className="object-cover"
-            priority
-          />
-        ) : (
-          <div className="absolute inset-0 flex items-center justify-center bg-linear-to-br from-surface via-surface to-surface-elevated">
-            <span className="bg-linear-to-br from-accent to-accent-secondary bg-clip-text font-display text-7xl font-semibold text-transparent sm:text-8xl">
+        <div className="relative aspect-4/5 w-80 overflow-hidden rounded-[2.5rem] sm:w-[28rem] lg:w-[34rem]">
+          {imageUrl ? (
+            <Image
+              src={imageUrl}
+              alt={imageAlt || "Portrait"}
+              fill
+              sizes="(min-width: 1024px) 360px, (min-width: 640px) 320px, 280px"
+              className="object-cover"
+              style={{
+                WebkitMaskImage: 'linear-gradient(to bottom, black 75%, transparent 100%)',
+                maskImage: 'linear-gradient(to bottom, black 75%, transparent 100%)',
+                filter: 'drop-shadow(0 10px 25px rgba(56, 189, 248, 0.15))',
+              }}
+              priority
+            />
+          ) : (
+            <div className="absolute inset-0 flex items-center justify-center bg-linear-to-br from-accent to-accent-secondary bg-clip-text font-display text-7xl font-semibold text-transparent">
               {INITIALS}
-            </span>
-          </div>
-        )}
-
-        {/* bottom status chip */}
-        <div className="absolute inset-x-4 bottom-4 flex items-center gap-2 rounded-full border border-border/60 bg-background/70 px-3 py-1.5 backdrop-blur-md">
-          <span className="relative flex size-2">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-75" />
-            <span className="relative inline-flex size-2 rounded-full bg-accent" />
-          </span>
-          <span className="text-xs font-medium text-muted">Open to opportunities</span>
+            </div>
+          )}
         </div>
       </motion.div>
     </motion.div>
