@@ -239,6 +239,7 @@ export default function Hero({
                   src={backgroundImageUrl}
                   alt="Background atmosphere"
                   fill
+                  sizes="100vw"
                   className="object-cover object-center filter blur-[1px]"
                   style={{
                     WebkitMaskImage:

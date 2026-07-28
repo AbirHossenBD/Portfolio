@@ -72,15 +72,17 @@ export default function SkillModal({
         <div className="flex items-center gap-4 mb-6">
           <div className="flex size-14 shrink-0 items-center justify-center rounded-2xl bg-slate-800/80 border border-slate-700/50 p-3">
             {skill.customIconUrl ? (
-              <Image
-                src={skill.customIconUrl}
-                alt={skill.name}
-                width={36}
-                height={36}
-                className="object-contain"
-              />
+              <div className="relative size-9 flex items-center justify-center">
+                <Image
+                  src={skill.customIconUrl}
+                  alt={skill.name}
+                  fill
+                  sizes="36px"
+                  className="object-contain"
+               />
+              </div>
             ) : (
-              <DynamicIcon icon={skill.icon} className="size-8 text-purple-400" />
+             <DynamicIcon icon={skill.icon} className="size-8 text-purple-400" />
             )}
           </div>
 

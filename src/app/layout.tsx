@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Script from "next/script";
-import { DM_Sans, JetBrains_Mono, Syne, Playfair_Display } from "next/font/google";
+import { DM_Sans, JetBrains_Mono, Syne, Playfair_Display, Alex_Brush } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 import { RootWrapper } from "@/components/root-wrapper";
 import { GlobalParticles } from "@/components/GlobalParticles";
@@ -30,6 +30,13 @@ const playfair = Playfair_Display({
   display: "swap",
 });
 
+const alex_brush = Alex_Brush({
+  variable: "--font-alex-brush",
+  subsets: ["latin"],
+  weight: "400",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: "Abir Hossen | Software Engineering Student",
   description:
@@ -56,7 +63,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${syne.variable} ${dmSans.variable} ${jetbrainsMono.variable} ${playfair.variable} dark h-full`}
+      className={`${syne.variable} ${dmSans.variable} ${jetbrainsMono.variable} ${playfair.variable} ${alex_brush.variable} dark h-full`}
       suppressHydrationWarning
     >
       <body className="relative min-h-full bg-background text-foreground">

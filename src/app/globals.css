@@ -27,6 +27,7 @@
   --color-accent-secondary: var(--accent-secondary);
   --color-accent-foreground: var(--accent-foreground);
   --color-ring: var(--ring);
+  --font-handwriting: var(--font-alex-brush);
   --font-sans: var(--font-dm-sans);
   --font-display: var(--font-syne);
   --font-mono: var(--font-jetbrains);
@@ -51,4 +52,7 @@
 
 .font-serif-display {
   font-family: var(--font-playfair), Georgia, serif;
+}
+.font-handwriting {
+  font-family: var(--font-alex-brush), cursive;
 }

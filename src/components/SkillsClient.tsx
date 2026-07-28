@@ -37,7 +37,6 @@ export function SkillsClient({ categories }: SkillsClientProps) {
         {/* Header Section */}
         <div className="relative mb-16 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
           <div className="max-w-2xl space-y-3">
-            {/* INCREASED EYEBROW TEXT SIZE HERE */}
             <p className="text-sm sm:text-base font-semibold tracking-[0.2em] text-purple-400 uppercase">
               SKILLS
             </p>
@@ -53,10 +52,10 @@ export function SkillsClient({ categories }: SkillsClientProps) {
           </div>
 
           <div className="hidden sm:block lg:self-center select-none pointer-events-none transform rotate-[-4deg]">
-            <span className="block font-serif-display italic text-2xl sm:text-3xl text-indigo-300/80 tracking-wide">
+            <span className="block font-handwriting italic text-2xl sm:text-3xl text-indigo-300/80 tracking-wide">
               Still learning.
             </span>
-            <span className="block font-serif-display italic text-2xl sm:text-3xl text-indigo-300/80 tracking-wide pl-4">
+            <span className="block font-handwriting italic text-2xl sm:text-3xl text-indigo-300/80 tracking-wide pl-4">
               Always building.
             </span>
             <div className="h-0.5 w-28 bg-indigo-500/40 mt-1 ml-4 rounded-full" />
@@ -77,7 +76,6 @@ export function SkillsClient({ categories }: SkillsClientProps) {
                   
                   {/* Icon and Category Title Container */}
                   <div className="flex items-center gap-3.5">
-                    {/* INCREASED ICON CONTAINER SIZE HERE */}
                     <div 
                       className="flex items-center justify-center size-10 rounded-full border backdrop-blur-md shrink-0"
                       style={{
@@ -86,13 +84,14 @@ export function SkillsClient({ categories }: SkillsClientProps) {
                         color: hexColor,
                       }}
                     >
-                      {/* Check for Custom Uploaded Image first */}
                       {category.customBadgeIconUrl ? (
                         <div className="relative size-5 flex items-center justify-center">
                           <Image
                             src={category.customBadgeIconUrl}
                             alt={`${category.title} icon`}
                             fill
+                            unoptimized
+                            sizes="20px"
                             className="object-contain"
                           />
                         </div>
@@ -103,7 +102,6 @@ export function SkillsClient({ categories }: SkillsClientProps) {
                       )}
                     </div>
                     
-                    {/* INCREASED CATEGORY TITLE SIZE HERE */}
                     <span 
                       className="text-base sm:text-lg font-bold tracking-wider uppercase"
                       style={{ color: hexColor }}
@@ -128,29 +126,46 @@ export function SkillsClient({ categories }: SkillsClientProps) {
                       className="cursor-pointer"
                     >
                       <SubtleWobble>
-                        <div className="group flex h-full min-h-36 flex-col items-center justify-center text-center gap-2.5 rounded-2xl border border-slate-800/80 bg-slate-900/40 p-4 backdrop-blur-sm transition-all duration-300 hover:border-slate-600 hover:bg-slate-800/60 hover:-translate-y-1">
+                        <div 
+                          className="group flex h-full min-h-36 flex-col items-center justify-center text-center gap-3 rounded-2xl border bg-slate-900/40 p-4 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1"
+                          style={{ borderColor: `${hexColor}50` }} // Resting border (50% opacity)
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.borderColor = hexColor; // Full color border on hover
+                            e.currentTarget.style.backgroundColor = `${hexColor}1A`; // 10% opacity bg on hover
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.borderColor = `${hexColor}50`;
+                            e.currentTarget.style.backgroundColor = "rgba(15, 23, 42, 0.4)"; // Reset to bg-slate-900/40
+                          }}
+                        >
                           
-                          <div className="flex size-12 items-center justify-center rounded-xl bg-slate-800/40 group-hover:scale-110 transition-transform relative overflow-hidden">
+                          {/* Icon wrapper - No background square, just hover animation & alignment */}
+                          <div className="relative flex size-10 items-center justify-center group-hover:scale-110 transition-transform">
                             {skill.customIconUrl ? (
                               <Image
                                 src={skill.customIconUrl}
                                 alt={skill.name}
-                                width={32}
-                                height={32}
-                                className="object-contain"
+                                fill
+                                unoptimized
+                                sizes="40px"
+                               className="object-contain"
                               />
                             ) : typeof skill.icon === "string" ? (
                               (() => {
-                                const { icon: MappedIcon, color } = getSkillIcon(skill.icon);
-                                return <MappedIcon className={`size-7 ${color}`} />;
+                               const { icon: MappedIcon, color } = getSkillIcon(skill.icon);
+                               return <MappedIcon className={`size-10 ${color}`} />;
                               })()
                             ) : (
-                              <DynamicIcon icon={skill.icon} className="size-7 text-slate-400" />
+                             <DynamicIcon icon={skill.icon} className="size-10 text-slate-300" />
                             )}
                           </div>
 
-                          <div className="flex flex-col gap-0.5">
-                            <span className="text-sm font-semibold text-slate-100 group-hover:text-white transition-colors">
+                          <div className="flex flex-col gap-1">
+                            {/* Skill Name uses category color */}
+                            <span 
+                              className="text-sm font-semibold transition-colors"
+                              style={{ color: hexColor }}
+                            >
                               {skill.name}
                             </span>
                             {skill.subtitle && (
