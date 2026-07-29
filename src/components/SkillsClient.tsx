@@ -52,10 +52,10 @@ export function SkillsClient({ categories }: SkillsClientProps) {
           </div>
 
           <div className="hidden sm:block lg:self-center select-none pointer-events-none transform rotate-[-4deg]">
-            <span className="block font-handwriting italic text-2xl sm:text-3xl text-indigo-300/80 tracking-wide">
+            <span className="block font-handwriting text-3xl sm:text-4xl text-indigo-300/80 tracking-wide">
               Still learning.
             </span>
-            <span className="block font-handwriting italic text-2xl sm:text-3xl text-indigo-300/80 tracking-wide pl-4">
+            <span className="block font-handwriting text-3xl sm:text-4xl text-indigo-300/80 tracking-wide pl-4">
               Always building.
             </span>
             <div className="h-0.5 w-28 bg-indigo-500/40 mt-1 ml-4 rounded-full" />
@@ -69,7 +69,7 @@ export function SkillsClient({ categories }: SkillsClientProps) {
             const hexColor = category.themeColor || "#A855F7"; 
 
             return (
-              <div key={category._id || category.title} className="space-y-4">
+              <div key={category._id || category.title} className="space-y-5">
                 
                 {/* Category Header Bar */}
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800/80 pb-3">
@@ -90,8 +90,6 @@ export function SkillsClient({ categories }: SkillsClientProps) {
                             src={category.customBadgeIconUrl}
                             alt={`${category.title} icon`}
                             fill
-                            unoptimized
-                            sizes="20px"
                             className="object-contain"
                           />
                         </div>
@@ -118,7 +116,7 @@ export function SkillsClient({ categories }: SkillsClientProps) {
                 </div>
 
                 {/* Skills Grid */}
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-3.5">
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-7 gap-4">
                   {category.skills?.map((skill: SkillDetail) => (
                     <div
                       key={skill.name}
@@ -127,45 +125,45 @@ export function SkillsClient({ categories }: SkillsClientProps) {
                     >
                       <SubtleWobble>
                         <div 
-                          className="group flex h-full min-h-36 flex-col items-center justify-center text-center gap-3 rounded-2xl border bg-slate-900/40 p-4 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1"
-                          style={{ borderColor: `${hexColor}50` }} // Resting border (50% opacity)
+                          className="group flex h-36 flex-col items-center justify-center text-center gap-2 rounded-xl border bg-linear-to-b from-white/4 to-[#05060a] p-4 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1"
+                          style={{ 
+                            borderColor: "rgba(255, 255, 255, 0.1)",
+                            // We inject the category hex color as a CSS variable here
+                            "--hover-color": hexColor
+                          } as React.CSSProperties} 
                           onMouseEnter={(e) => {
-                            e.currentTarget.style.borderColor = hexColor; // Full color border on hover
-                            e.currentTarget.style.backgroundColor = `${hexColor}1A`; // 10% opacity bg on hover
+                            e.currentTarget.style.borderColor = hexColor; 
+                            e.currentTarget.style.boxShadow = `0 10px 30px -10px ${hexColor}33`; 
                           }}
                           onMouseLeave={(e) => {
-                            e.currentTarget.style.borderColor = `${hexColor}50`;
-                            e.currentTarget.style.backgroundColor = "rgba(15, 23, 42, 0.4)"; // Reset to bg-slate-900/40
+                            e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.1)"; 
+                            e.currentTarget.style.boxShadow = "none";
                           }}
                         >
                           
-                          {/* Icon wrapper - No background square, just hover animation & alignment */}
-                          <div className="relative flex size-10 items-center justify-center group-hover:scale-110 transition-transform">
+                          {/* Icon wrapper */}
+                          <div className="flex h-12 items-center justify-center group-hover:scale-110 transition-transform mb-1">
                             {skill.customIconUrl ? (
                               <Image
                                 src={skill.customIconUrl}
                                 alt={skill.name}
-                                fill
-                                unoptimized
-                                sizes="40px"
-                               className="object-contain"
+                                width={40}
+                                height={40}
+                                className="object-contain"
                               />
                             ) : typeof skill.icon === "string" ? (
                               (() => {
-                               const { icon: MappedIcon, color } = getSkillIcon(skill.icon);
-                               return <MappedIcon className={`size-10 ${color}`} />;
+                                const { icon: MappedIcon, color } = getSkillIcon(skill.icon);
+                                return <MappedIcon className={`size-10 ${color}`} />;
                               })()
                             ) : (
-                             <DynamicIcon icon={skill.icon} className="size-10 text-slate-300" />
+                              <DynamicIcon icon={skill.icon} className="size-10 text-slate-300" />
                             )}
                           </div>
 
-                          <div className="flex flex-col gap-1">
-                            {/* Skill Name uses category color */}
-                            <span 
-                              className="text-sm font-semibold transition-colors"
-                              style={{ color: hexColor }}
-                            >
+                          <div className="flex flex-col gap-0.5">
+                            {/* Skill Name: We use group-hover with the CSS variable we injected above! */}
+                            <span className="text-sm font-semibold text-slate-100 transition-colors duration-300 group-hover:text-(--hover-color)">
                               {skill.name}
                             </span>
                             {skill.subtitle && (
