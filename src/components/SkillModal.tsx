@@ -1,11 +1,12 @@
 'use client';
 
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import { FaXmark } from "react-icons/fa6";
-import { FiExternalLink } from "react-icons/fi";
+import { FiArrowRight } from "react-icons/fi";
 import { DynamicIcon } from "@/components/DynamicIcon";
 import Image from "next/image";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { getSkillIcon } from "@/sanity/lib/skill-icons";
 
 export interface SkillProject {
   title: string;
@@ -16,13 +17,30 @@ export interface SkillProject {
 export interface SkillDetail {
   name: string;
   subtitle?: string;
-  icon?: { name?: string; provider?: string };
+  description?: string;
+  themeColor?: string;
+  icon?: string | { name?: string; provider?: string };
   customIconUrl?: string;
   proficiency?: string;
   experienceTime?: string;
-  detailedDescription?: string;
   projectsBuilt?: SkillProject[];
 }
+
+const containerVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.15,
+    },
+  },
+};
+
+const itemVariants: Variants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
+};
 
 export default function SkillModal({
   skill,
@@ -42,122 +60,276 @@ export default function SkillModal({
 
   if (!skill) return null;
 
+  // Fallback to a neutral slate if no theme color is provided
+  const dynamicColor = skill.themeColor || "#94a3b8";
+
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 md:p-12">
       {/* Backdrop */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
+        transition={{ duration: 0.3 }}
         onClick={onClose}
-        className="absolute inset-0 bg-slate-950/70 backdrop-blur-md"
+        className="absolute inset-0 bg-slate-950/80 backdrop-blur-md"
       />
 
       {/* Modal Container */}
       <motion.div
-        initial={{ opacity: 0, y: 20, scale: 0.95 }}
+        initial={{ opacity: 0, y: 40, scale: 0.95 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         exit={{ opacity: 0, y: 20, scale: 0.95 }}
-        className="relative w-full max-w-2xl overflow-hidden rounded-2xl border border-slate-700/60 bg-[#0F172A]/90 p-6 sm:p-8 backdrop-blur-2xl shadow-2xl"
+        transition={{ type: "spring", duration: 0.7, bounce: 0.3 }}
+        className="relative flex w-full max-w-3xl max-h-[90vh] flex-col overflow-hidden rounded-4xl border bg-[#0A0F1C]/95"
+        style={{
+          borderColor: `${dynamicColor}40`,
+          boxShadow: `0 25px 50px -12px ${dynamicColor}33`,
+        }}
       >
+        {/* Decorative Top Gradient Line */}
+        <div
+          className="absolute top-0 inset-x-0 h-1.5 opacity-90"
+          style={{
+            background: `linear-gradient(to right, transparent, ${dynamicColor}, transparent)`,
+          }}
+        />
+
+        {/* Glowing orb effect behind the header */}
+        <div
+          className="absolute top-0 left-0 w-full h-64 pointer-events-none"
+          style={{
+            background: `linear-gradient(to bottom, ${dynamicColor}15, transparent)`,
+          }}
+        />
+
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute right-5 top-5 rounded-full bg-slate-800/80 p-2 text-slate-400 transition-colors hover:bg-slate-700 hover:text-white focus:outline-none"
+          className="absolute right-5 top-5 z-20 flex size-10 items-center justify-center rounded-full bg-slate-800/50 text-slate-400 backdrop-blur-md transition-all hover:bg-slate-700 hover:text-white hover:rotate-90 focus:outline-none"
+          aria-label="Close modal"
         >
-          <FaXmark className="text-lg" />
+          <FaXmark className="text-xl" />
         </button>
 
-        {/* Header Section */}
-        <div className="flex items-center gap-4 mb-6">
-          <div className="flex size-14 shrink-0 items-center justify-center rounded-2xl bg-slate-800/80 border border-slate-700/50 p-3">
-            {skill.customIconUrl ? (
-              <div className="relative size-9 flex items-center justify-center">
-                <Image
-                  src={skill.customIconUrl}
-                  alt={skill.name}
-                  fill
-                  sizes="36px"
-                  className="object-contain"
-               />
-              </div>
-            ) : (
-             <DynamicIcon icon={skill.icon} className="size-8 text-purple-400" />
-            )}
-          </div>
+        {/* Scrollable Content Area */}
+        <div className="overflow-y-auto px-6 py-8 sm:px-10 sm:py-12 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:bg-slate-700/50 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-transparent">
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            className="relative z-10"
+          >
+            {/* Header Section */}
+            <motion.div
+              variants={itemVariants}
+              className="flex flex-col sm:flex-row sm:items-start gap-6 mb-8"
+            >
+              {/* Icon Box */}
+              <div
+                className="relative flex size-20 sm:size-24 shrink-0 items-center justify-center rounded-3xl bg-slate-800/80 border p-5 overflow-hidden group"
+                style={{
+                  borderColor: `${dynamicColor}40`,
+                  boxShadow: `0 0 40px ${dynamicColor}25`,
+                }}
+              >
+                <div
+                  className="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                  style={{
+                    background: `linear-gradient(to bottom right, ${dynamicColor}20, transparent)`,
+                  }}
+                />
 
-          <div>
-            <h3 className="font-serif-display text-3xl font-bold text-white">
-              {skill.name}
-            </h3>
-            {skill.subtitle && (
-              <p className="text-sm text-purple-400 font-medium mt-0.5">
-                {skill.subtitle}
-              </p>
-            )}
-          </div>
-        </div>
-
-        {/* Badges Row */}
-        <div className="flex flex-wrap gap-3 mb-6">
-          {skill.proficiency && (
-            <div className="rounded-lg border border-purple-500/20 bg-purple-500/10 px-3 py-1 text-xs font-semibold text-purple-300">
-              {skill.proficiency}
-            </div>
-          )}
-          {skill.experienceTime && (
-            <div className="rounded-lg border border-indigo-500/20 bg-indigo-500/10 px-3 py-1 text-xs font-semibold text-indigo-300">
-              {skill.experienceTime}
-            </div>
-          )}
-        </div>
-
-        {/* Detailed Breakdown */}
-        {skill.detailedDescription && (
-          <div className="mb-6 space-y-2">
-            <h4 className="text-xs font-semibold tracking-wider text-slate-400 uppercase">
-              Expertise & Workflow
-            </h4>
-            <p className="text-sm leading-relaxed text-slate-300 font-light">
-              {skill.detailedDescription}
-            </p>
-          </div>
-        )}
-
-        {/* Projects List */}
-        {skill.projectsBuilt && skill.projectsBuilt.length > 0 && (
-          <div className="space-y-3 pt-4 border-t border-slate-800">
-            <h4 className="text-xs font-semibold tracking-wider text-slate-400 uppercase">
-              Built With {skill.name}
-            </h4>
-            <div className="grid gap-2 sm:grid-cols-2">
-              {skill.projectsBuilt.map((proj, idx) => (
-                <a
-                  key={idx}
-                  href={proj.link || "#"}
-                  target={proj.link ? "_blank" : undefined}
-                  rel="noreferrer"
-                  className="group flex items-center justify-between rounded-xl border border-slate-800 bg-slate-900/60 p-3 transition-all hover:border-purple-500/40 hover:bg-slate-800/60"
-                >
-                  <div>
-                    <span className="block text-sm font-semibold text-slate-200 group-hover:text-purple-300">
-                      {proj.title}
-                    </span>
-                    {proj.role && (
-                      <span className="block text-xs text-slate-400 mt-0.5">
-                        {proj.role}
-                      </span>
-                    )}
+                {skill.customIconUrl ? (
+                  <div className="relative size-full flex items-center justify-center">
+                    <Image
+                      src={skill.customIconUrl}
+                      alt={skill.name}
+                      fill
+                      sizes="64px"
+                      className="object-contain drop-shadow-lg transition-transform duration-500 group-hover:scale-110"
+                    />
                   </div>
-                  {proj.link && (
-                    <FiExternalLink className="text-slate-500 group-hover:text-purple-400 transition-colors" />
-                  )}
-                </a>
-              ))}
-            </div>
-          </div>
-        )}
+                ) : typeof skill.icon === "string" ? (
+                  (() => {
+                    const { icon: MappedIcon, color } = getSkillIcon(skill.icon);
+                    return (
+                      <MappedIcon
+                        className={`size-12 sm:size-14 ${color} drop-shadow-lg transition-transform duration-500 group-hover:scale-110`}
+                      />
+                    );
+                  })()
+                ) : (
+                  <span style={{ color: dynamicColor }} className="flex items-center justify-center">
+                    <DynamicIcon
+                      icon={skill.icon}
+                      className="size-12 sm:size-14 drop-shadow-lg transition-transform duration-500 group-hover:scale-110"
+                    />
+                  </span>
+                )}
+              </div>
+
+              <div className="pt-2">
+                <h3 className="font-serif-display text-4xl sm:text-5xl font-bold text-white tracking-tight">
+                  {skill.name}
+                </h3>
+
+                {/* Dynamic Subtitle Color */}
+                {skill.subtitle && (
+                  <p
+                    className="text-base sm:text-lg font-medium mt-2"
+                    style={{ color: dynamicColor }}
+                  >
+                    {skill.subtitle}
+                  </p>
+                )}
+
+                {/* Editable Description in Off-White */}
+                {skill.description && (
+                  <p className="text-sm sm:text-base text-slate-200/90 font-light mt-4 leading-relaxed max-w-xl">
+                    {skill.description}
+                  </p>
+                )}
+              </div>
+            </motion.div>
+
+            {/* Badges Row */}
+            {(skill.proficiency || skill.experienceTime) && (
+              <motion.div
+                variants={itemVariants}
+                className="flex flex-wrap gap-3 mb-10"
+              >
+                {skill.proficiency && (
+                  <div
+                    className="flex items-center gap-2.5 rounded-full border px-4 py-2 text-sm font-medium backdrop-blur-sm"
+                    style={{
+                      backgroundColor: `${dynamicColor}15`,
+                      borderColor: `${dynamicColor}35`,
+                      color: dynamicColor,
+                    }}
+                  >
+                    <span
+                      className="size-2 rounded-full"
+                      style={{
+                        backgroundColor: dynamicColor,
+                        boxShadow: `0 0 10px ${dynamicColor}cc`,
+                      }}
+                    />
+                    {skill.proficiency}
+                  </div>
+                )}
+                {skill.experienceTime && (
+                  <div
+                    className="flex items-center gap-2.5 rounded-full border px-4 py-2 text-sm font-medium backdrop-blur-sm"
+                    style={{
+                      backgroundColor: `${dynamicColor}10`,
+                      borderColor: `${dynamicColor}25`,
+                      color: dynamicColor,
+                    }}
+                  >
+                    <span
+                      className="size-2 rounded-full"
+                      style={{
+                        backgroundColor: dynamicColor,
+                        boxShadow: `0 0 10px ${dynamicColor}99`,
+                      }}
+                    />
+                    {skill.experienceTime}
+                  </div>
+                )}
+              </motion.div>
+            )}
+
+            {/* Projects List */}
+            {skill.projectsBuilt && skill.projectsBuilt.length > 0 && (
+              <motion.div variants={itemVariants} className="space-y-5">
+                <div className="flex items-center gap-4">
+                  <h4 className="text-xs font-bold tracking-[0.2em] text-slate-500 uppercase">
+                    Featured Projects
+                  </h4>
+                  <div className="h-px flex-1 bg-slate-800/80" />
+                </div>
+                <div className="grid gap-4 sm:grid-cols-2">
+                  {skill.projectsBuilt.map((proj, idx) => (
+                    <ProjectCard
+                      key={idx}
+                      proj={proj}
+                      dynamicColor={dynamicColor}
+                    />
+                  ))}
+                </div>
+              </motion.div>
+            )}
+          </motion.div>
+        </div>
       </motion.div>
     </div>
+  );
+}
+
+// Sub-component to cleanly handle the hover states of individual project cards
+function ProjectCard({
+  proj,
+  dynamicColor,
+}: {
+  proj: SkillProject;
+  dynamicColor: string;
+}) {
+  const [isHovered, setIsHovered] = useState(false);
+
+  return (
+    <a
+      href={proj.link || "#"}
+      target={proj.link ? "_blank" : undefined}
+      rel="noreferrer"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className="relative flex flex-col justify-center overflow-hidden rounded-2xl border transition-all duration-500 hover:-translate-y-1 p-5"
+      style={{
+        borderColor: isHovered ? `${dynamicColor}60` : "rgba(51, 65, 85, 0.4)", // slate-700/40
+        backgroundColor: isHovered ? `${dynamicColor}10` : "rgba(30, 41, 59, 0.2)", // slate-800/20
+        boxShadow: isHovered ? `0 8px 30px ${dynamicColor}20` : "none",
+      }}
+    >
+      <div
+        className="absolute inset-0 transition-opacity duration-500 pointer-events-none"
+        style={{
+          opacity: isHovered ? 1 : 0,
+          background: `linear-gradient(to bottom right, ${dynamicColor}15, transparent)`,
+        }}
+      />
+
+      <div className="relative flex items-center justify-between gap-4">
+        <div className="flex-1 min-w-0">
+          <span
+            className="block text-base font-semibold transition-colors truncate"
+            style={{ color: isHovered ? dynamicColor : "#e2e8f0" }} // slate-200
+          >
+            {proj.title}
+          </span>
+          {proj.role && (
+            <span className="block text-sm text-slate-400 mt-1 font-medium truncate">
+              {proj.role}
+            </span>
+          )}
+        </div>
+        
+        {proj.link && (
+          <div
+            className="flex size-8 shrink-0 items-center justify-center rounded-full transition-all duration-300"
+            style={{
+              backgroundColor: isHovered ? dynamicColor : "rgba(30, 41, 59, 0.8)", // slate-800/80
+              color: isHovered ? "#ffffff" : "#94a3b8", // white : slate-400
+            }}
+          >
+            <FiArrowRight
+              className={`size-4 transition-transform duration-300 ${
+                isHovered ? "rotate-0" : "-rotate-45"
+              }`}
+            />
+          </div>
+        )}
+      </div>
+    </a>
   );
 }

@@ -140,11 +140,22 @@ export default defineType({
       type: "image",
       options: { hotspot: true },
     }),
+    // --- NEW OPACITY FIELD ---
+    defineField({
+      name: "bgImageOpacity",
+      title: "Background Image Opacity",
+      description: "A value between 0 (invisible) and 1 (fully visible). Default is 0.3.",
+      type: "number",
+      initialValue: 0.3,
+      validation: (Rule) => Rule.min(0).max(1),
+    }),
+    // --- UPDATED GLOW COLOR FIELD ---
     defineField({
       name: "glowColor",
-      title: "Ambient Background Glow Color (CSS Color String)",
+      title: "Ambient Background Glow Color (Hex Code)",
+      description: "Enter a 6-character hex code (e.g., #9333EA for purple).",
       type: "string",
-      initialValue: "rgba(147, 51, 234, 0.12)",
+      initialValue: "#9333EA",
     }),
   ],
 });

@@ -6,12 +6,12 @@ import { FiExternalLink } from "react-icons/fi";
 import { useEffect, useState, useRef } from "react";
 
 type Project = {
-  id: number;
+  _id: string; // Changed from id: number
   title: string;
-  description: string;
-  techStack: string[];
-  githubUrl: string;
-  liveUrl: string;
+  summary: string; // Changed from description
+  technologies: string[]; // Changed from techStack
+  githubUrl?: string;
+  liveUrl?: string;
   sections: { text: string; image: string }[];
 };
 
@@ -111,7 +111,7 @@ export default function ProjectModal({
           </h2>
           
           <div className="mb-8 flex flex-wrap gap-2">
-            {project.techStack.map((tech) => (
+            {project.technologies.map((tech) => (
               <span 
                 key={tech} 
                 className="rounded-full bg-purple-500/10 px-4 py-1.5 text-xs font-semibold text-purple-300 border border-purple-500/20"

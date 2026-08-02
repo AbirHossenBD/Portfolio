@@ -2,28 +2,19 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Download, Atom, Sparkles, Code2 } from "lucide-react";
+import { ArrowRight, Download, Code2 } from "lucide-react";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
+import { DynamicIcon } from "@/components/DynamicIcon";
 
 const NAME_FIRST = "Abir";
 const NAME_LAST = "Hossen";
 const INITIALS = "AH";
-
 const DEFAULT_TAGLINE = "HI, I'M";
 const DEFAULT_SUBHEADING = "I'm building my future through software.";
 const DEFAULT_HIGHLIGHT = "future";
 const DEFAULT_DESC =
-  "The digital world feels like home to me. I enjoy creating things people can experience. From websites to AI and someday games, I love learning how great software is created—one project at a time.";
-const DEFAULT_WATERMARK = `// curious mind
-// patient enough
-// to solve problems
-// honest in the process
-
-while (learning) {
-  build();
-  grow();
-  repeat();
-}`;
+  "The digital world feels like home to me. I enjoy creating things people can experience. From websites to AI and someday games, I love learning how great software is created one project at a time.";
+const DEFAULT_WATERMARK = `// curious mind\n// patient enough\n// to solve problems\n// honest in the process\n\nwhile (learning) {\n  build();\n  grow();\n  repeat();\n}`;
 
 const containerVariants: Variants = {
   hidden: {},
@@ -43,7 +34,7 @@ const fadeUp: Variants = {
 
 export interface StatusItem {
   label: string;
-  iconType?: "atom" | "sparkles" | "code" | string;
+  icon?: { name?: string; provider?: string };
 }
 
 export interface HeroProps {
@@ -60,18 +51,8 @@ export interface HeroProps {
   heroImageUrl?: string;
   heroImageAlt?: string;
   backgroundImageUrl?: string;
+  bgImageOpacity?: number;
   glowColor?: string;
-}
-
-function renderStatusIcon(type?: string) {
-  switch (type) {
-    case "atom":
-      return <Atom className="size-4 text-indigo-400" />;
-    case "sparkles":
-      return <Sparkles className="size-4 text-purple-400" />;
-    default:
-      return <Code2 className="size-4 text-indigo-400" />;
-  }
 }
 
 export default function Hero({
@@ -79,11 +60,7 @@ export default function Hero({
   subheadingText = DEFAULT_SUBHEADING,
   highlightedWord = DEFAULT_HIGHLIGHT,
   description = DEFAULT_DESC,
-  statusItems = [
-    { label: "Learning React", iconType: "atom" },
-    { label: "Exploring AI", iconType: "sparkles" },
-    { label: "Building this portfolio", iconType: "code" },
-  ],
+  statusItems,
   primaryCtaText = "Explore My Work",
   primaryCtaLink = "#projects",
   secondaryCtaText = "Download Resume",
@@ -92,7 +69,8 @@ export default function Hero({
   heroImageUrl,
   heroImageAlt,
   backgroundImageUrl,
-  glowColor = "rgba(147, 51, 234, 0.12)",
+  bgImageOpacity = 0.3,
+  glowColor = "#9333EA",
 }: HeroProps) {
   const reduceMotion = useReducedMotion();
 
@@ -118,11 +96,11 @@ export default function Hero({
       className="relative flex min-h-[calc(100dvh-4rem)] w-full items-center justify-center overflow-hidden py-12 lg:py-20 bg-transparent"
       aria-labelledby="hero-heading"
     >
-      {/* Dynamic Purple Ambient Glow */}
+      {/* Dynamic Ambient Glow */}
       <div
         aria-hidden
         className="absolute right-[10%] top-1/2 -translate-y-1/2 -z-10 h-125 w-125 rounded-full blur-[160px] pointer-events-none"
-        style={{ backgroundColor: glowColor }}
+        style={{ backgroundColor: glowColor, opacity: 0.15 }}
       />
 
       {/* Main Grid */}
@@ -141,7 +119,6 @@ export default function Hero({
           >
             {topTagline}
           </motion.p>
-
           <motion.h1
             id="hero-heading"
             variants={fadeUp}
@@ -151,23 +128,20 @@ export default function Hero({
             {NAME_LAST}
             <span className="inline-block text-indigo-500 ml-1">.</span>
           </motion.h1>
-
           <motion.p
             variants={fadeUp}
             className="text-xl sm:text-2xl font-light text-slate-200 tracking-wide"
           >
             {renderSubheading()}
           </motion.p>
-
           <div className="h-px w-12 bg-slate-800 my-1" />
-
           <motion.p
             variants={fadeUp}
             className="text-sm sm:text-base leading-relaxed text-slate-400 font-normal max-w-lg"
           >
             {description}
           </motion.p>
-
+          
           {statusItems && statusItems.length > 0 && (
             <motion.div
               variants={fadeUp}
@@ -175,10 +149,14 @@ export default function Hero({
             >
               {statusItems.map((item, idx) => (
                 <div key={idx} className="flex items-center gap-2">
-                  {renderStatusIcon(item.iconType)}
+                  {item.icon ? (
+                    <DynamicIcon icon={item.icon} className="size-4 text-purple-400" />
+                  ) : (
+                    <Code2 className="size-4 text-indigo-400" />
+                  )}
                   <span>{item.label}</span>
                   {idx < statusItems.length - 1 && (
-                    <span className="text-slate-700 ml-2">•</span>
+                    <span className="text-slate-700 ml-2">|</span>
                   )}
                 </div>
               ))}
@@ -196,7 +174,6 @@ export default function Hero({
               {primaryCtaText}
               <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
             </Link>
-
             <a
               href={secondaryCtaLink || "/resume.pdf"}
               target="_blank"
@@ -218,9 +195,9 @@ export default function Hero({
               aria-hidden
               className="absolute -right-50 top-30 hidden lg:block font-mono text-xs leading-relaxed text-slate-600/25 select-none pointer-events-none z-0 whitespace-pre"
               style={{
-                      WebkitMaskImage: "linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%)",
-                      maskImage: "linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%)",
-                    }}
+                WebkitMaskImage: "linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%)",
+                maskImage: "linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%)",
+              }}
             >
               {watermarkCode}
             </div>
@@ -232,9 +209,13 @@ export default function Hero({
             transition={{ duration: 0.8, delay: 0.2 }}
             className="relative w-full max-w-sm lg:max-w-md xl:max-w-lg z-10"
           >
-            {/* Optional Background Landscape/Art Layer behind Portrait */}
+            {/* Background Landscape/Atmosphere Layer */}
             {backgroundImageUrl && (
-              <div aria-hidden className="absolute inset-0 -z-10 overflow-hidden opacity-30">
+              <div 
+                aria-hidden 
+                className="absolute inset-0 -z-10 overflow-hidden"
+                style={{ opacity: bgImageOpacity }}
+              >
                 <Image
                   src={backgroundImageUrl}
                   alt="Background atmosphere"
@@ -276,7 +257,6 @@ export default function Hero({
             </div>
           </motion.div>
         </div>
-
       </div>
 
       {/* Scroll Indicator */}

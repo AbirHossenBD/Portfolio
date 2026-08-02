@@ -1,5 +1,3 @@
-// --- Path: src/sanity/schemaTypes/skill.ts ---
-
 import { defineField, defineType } from 'sanity'
 
 export const skill = defineType({
@@ -18,6 +16,14 @@ export const skill = defineType({
       title: 'Subtitle / Details',
       description: 'Optional detail like "3+ Projects" or "UI/UX Design".',
       type: 'string',
+    }),
+    // --- NEW DESCRIPTION FIELD ---
+    defineField({
+      name: 'description',
+      title: 'Skill Description',
+      description: 'A brief description of your experience or workflow with this skill.',
+      type: 'text',
+      rows: 4,
     }),
     defineField({
       name: 'category',

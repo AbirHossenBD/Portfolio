@@ -19,9 +19,10 @@ export async function getHeroData() {
     secondaryCtaLink,
     watermarkCode,
     glowColor,
+    bgImageOpacity, // <- NEW FIELD ADDED HERE
     portrait,
     "portraitAlt": portrait.alt,
-    backgroundImage
+    "backgroundImageUrl": backgroundImage.asset->url
   }`;
   return await client.fetch(query);
 }
@@ -39,6 +40,7 @@ export async function getSkillCategories() {
       _id,
       name,
       subtitle,
+      description, // <- FETCHING THE NEW FIELD
       icon,
       "customIconUrl": customIcon.asset->url
     }
@@ -54,6 +56,35 @@ export async function getSkills() {
       icon,
       level
     }
+  }`;
+  return await client.fetch(query);
+}
+export async function getProjects() {
+  const query = `*[_type == "project"] | order(_createdAt desc){
+    _id,
+    title,
+    "slug": slug.current,
+    category,
+    "mainImage": mainImage.asset->url,
+    color,
+    summary,
+    technologies,
+    liveUrl,
+    githubUrl,
+    sections[]{
+      text,
+      "image": image.asset->url
+    }
+  }`;
+  return await client.fetch(query);
+}
+export async function getCertifications() {
+  const query = `*[_type == "certification"] | order(issueDate desc){
+    _id,
+    title,
+    issuer,
+    issueDate,
+    credentialUrl
   }`;
   return await client.fetch(query);
 }

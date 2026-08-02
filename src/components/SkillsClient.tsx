@@ -120,7 +120,8 @@ export function SkillsClient({ categories }: SkillsClientProps) {
                   {category.skills?.map((skill: SkillDetail) => (
                     <div
                       key={skill.name}
-                      onClick={() => setSelectedSkill(skill)}
+                      // INJECT THE CATEGORY COLOR HERE:
+                      onClick={() => setSelectedSkill({ ...skill, themeColor: hexColor })}
                       className="cursor-pointer"
                     >
                       <SubtleWobble>

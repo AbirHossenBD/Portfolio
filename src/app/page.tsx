@@ -5,6 +5,7 @@ import Hero from "@/components/Hero";
 import { Navbar } from "@/components/Navbar";
 import Projects from "@/components/Projects";
 import Skills from "@/components/Skills";
+import Certifications from "@/components/Certifications";
 import { getHeroData } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
 
@@ -36,14 +37,17 @@ export default async function Home() {
         secondaryCtaText={hero?.secondaryCtaText ?? "Download Resume"}
         secondaryCtaLink={hero?.secondaryCtaLink ?? "/resume.pdf"}
         watermarkCode={hero?.watermarkCode}
-        glowColor={hero?.glowColor ?? "rgba(147, 51, 234, 0.12)"}
+        glowColor={hero?.glowColor ?? "#9333EA"} // <- Updated fallback to Hex
+        bgImageOpacity={hero?.bgImageOpacity}    // <- ADDED NEW PROP
         heroImageUrl={heroImageUrl}
         heroImageAlt={hero?.portraitAlt ?? undefined}
+        backgroundImageUrl={hero?.backgroundImageUrl}
       />
       <Skills />
       <Projects />
       <Experience />
       <Education />
+      <Certifications />
       <Contact />
     </>
   );
