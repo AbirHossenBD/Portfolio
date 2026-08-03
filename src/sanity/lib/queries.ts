@@ -60,15 +60,24 @@ export async function getSkills() {
   return await client.fetch(query);
 }
 export async function getProjects() {
-  const query = `*[_type == "project"] | order(_createdAt desc){
+  const query = `*[_type == "project"] | order(order asc, _createdAt desc){
     _id,
     title,
     "slug": slug.current,
+    isFeatured,
+    order,
     category,
     "mainImage": mainImage.asset->url,
-    color,
+    color, // <-- Fetch custom color field
     summary,
+    status,
+    dateLabel,
+    projectType,
+    highlightsTitle,
+    highlights,
+    ctaText,
     technologies,
+    icon,
     liveUrl,
     githubUrl,
     sections[]{
