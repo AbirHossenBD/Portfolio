@@ -32,7 +32,7 @@ export function SkillsClient({ categories }: SkillsClientProps) {
 
   return (
     <section id="skills" className="py-16 lg:py-24" aria-labelledby="skills-heading">
-      <div className="mx-auto w-full max-w-375 px-6 sm:px-12 lg:px-16 xl:px-20">
+      <div className="mx-auto w-full max-w-6xl px-6 sm:px-12 lg:px-16 xl:px-20">
         
         {/* Header Section */}
         <div className="relative mb-16 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">

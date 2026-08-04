@@ -30,7 +30,7 @@ export default function Contact() {
       className="py-16 lg:py-24"
       aria-labelledby="contact-heading"
     >
-      <div className="mx-auto w-full max-w-375 px-6 sm:px-12 lg:px-16 xl:px-20">
+      <div className="mx-auto w-full max-w-6xl px-6 sm:px-12 lg:px-16 xl:px-20">
         <div className="mb-10 max-w-2xl space-y-3">
           <p className="text-xs font-semibold tracking-[0.2em] text-purple-400 uppercase">
             Contact

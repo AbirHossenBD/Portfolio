@@ -1,16 +1,15 @@
 import Contact from "@/components/Contact";
-import Education from "@/components/Education";
-import Experience from "@/components/Experience";
 import Hero from "@/components/Hero";
-import { Navbar } from "@/components/Navbar";
 import Projects from "@/components/Projects";
 import Skills from "@/components/Skills";
-import Certifications from "@/components/Certifications";
-import { getHeroData } from "@/sanity/lib/queries";
+import JourneyClient from "@/components/JourneyClient";
+import { Navbar } from "@/components/Navbar";
+import { getHeroData, getJourneyData } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
 
 export default async function Home() {
   const hero = await getHeroData();
+  const milestones = await getJourneyData();
 
   const heroImageUrl = hero?.portrait
     ? urlFor(hero.portrait).width(640).height(800).fit("crop").url()
@@ -37,17 +36,15 @@ export default async function Home() {
         secondaryCtaText={hero?.secondaryCtaText ?? "Download Resume"}
         secondaryCtaLink={hero?.secondaryCtaLink ?? "/resume.pdf"}
         watermarkCode={hero?.watermarkCode}
-        glowColor={hero?.glowColor ?? "#9333EA"} // <- Updated fallback to Hex
-        bgImageOpacity={hero?.bgImageOpacity}    // <- ADDED NEW PROP
+        glowColor={hero?.glowColor ?? "#9333EA"}
+        bgImageOpacity={hero?.bgImageOpacity}
         heroImageUrl={heroImageUrl}
         heroImageAlt={hero?.portraitAlt ?? undefined}
         backgroundImageUrl={hero?.backgroundImageUrl}
       />
       <Skills />
       <Projects />
-      <Experience />
-      <Education />
-      <Certifications />
+      <JourneyClient milestones={milestones || []} />
       <Contact />
     </>
   );

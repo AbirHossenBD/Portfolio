@@ -59,6 +59,21 @@ export async function getSkills() {
   }`;
   return await client.fetch(query);
 }
+export async function getJourneyData() {
+  const query = `*[_type == "journey"] | order(orderDate desc){
+    _id,
+    title,
+    category,
+    icon,
+    year,
+    orderDate,
+    subtitle,
+    shortSummary,
+    highlights,
+    isCurrent
+  }`;
+  return await client.fetch(query);
+}
 export async function getProjects() {
   const query = `*[_type == "project"] | order(order asc, _createdAt desc){
     _id,

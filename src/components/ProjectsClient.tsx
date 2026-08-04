@@ -30,8 +30,8 @@ export default function ProjectsClient({ projects }: { projects: any[] }) {
   const minorProjects = filteredProjects.filter((p) => p.isFeatured === false);
 
   return (
-    <section id="projects" className="py-16 lg:py-24" aria-labelledby="projects-heading">
-      <div className="mx-auto w-full max-w-375 px-6 sm:px-12 lg:px-16 xl:px-20">
+    <section id="projects" className="relative py-24 w-full" aria-labelledby="projects-heading">
+      <div className="mx-auto w-full max-w-6xl px-6 sm:px-12 lg:px-16">
         
         {/* Header Section */}
         <div className="relative mb-10 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">

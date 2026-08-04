@@ -104,8 +104,8 @@ export default function Hero({
       />
 
       {/* Main Grid */}
-      <div className="relative z-10 mx-auto w-full max-w-375 px-6 sm:px-12 lg:px-16 xl:px-20 grid gap-12 lg:grid-cols-[1.15fr_0.85fr] lg:items-center xl:gap-16">
-        
+      <div className="relative z-10 mx-auto w-full max-w-7xl px-6 sm:px-12 lg:px-16 xl:px-20 grid gap-12 lg:grid-cols-[1.15fr_0.85fr] lg:items-center xl:gap-16">
+
         {/* LEFT COLUMN */}
         <motion.div
           initial={reduceMotion ? false : "hidden"}
@@ -209,11 +209,11 @@ export default function Hero({
             transition={{ duration: 0.8, delay: 0.2 }}
             className="relative w-full max-w-sm lg:max-w-md xl:max-w-lg z-10"
           >
-            {/* Background Landscape/Atmosphere Layer */}
+            {/* Background Landscape Layer */}
             {backgroundImageUrl && (
-              <div 
-                aria-hidden 
-                className="absolute inset-0 -z-10 overflow-hidden"
+              <div
+                 aria-hidden
+                 className="absolute inset-0 -z-10 overflow-hidden"
                 style={{ opacity: bgImageOpacity }}
               >
                 <Image
@@ -223,10 +223,9 @@ export default function Hero({
                   sizes="100vw"
                   className="object-cover object-center filter blur-[1px]"
                   style={{
-                    WebkitMaskImage:
-                      "radial-gradient(circle, black 40%, transparent 80%)",
-                    maskImage:
-                      "radial-gradient(circle, black 40%, transparent 80%)",
+                    // Reverted back to the original clean radial gradient
+                    WebkitMaskImage: "radial-gradient(circle, black 40%, transparent 80%)",
+                    maskImage: "radial-gradient(circle, black 40%, transparent 80%)",
                   }}
                 />
               </div>
@@ -242,10 +241,9 @@ export default function Hero({
                   sizes="(min-width: 1280px) 520px, (min-width: 1024px) 440px, 100vw"
                   className="object-cover object-top filter contrast-[1.05]"
                   style={{
-                    WebkitMaskImage:
-                      "linear-gradient(to bottom, black 70%, transparent 100%)",
-                    maskImage:
-                      "linear-gradient(to bottom, black 70%, transparent 100%)",
+                    // Reverted back to the original clean linear gradient
+                    WebkitMaskImage: "linear-gradient(to bottom, black 70%, transparent 100%)",
+                    maskImage: "linear-gradient(to bottom, black 70%, transparent 100%)",
                   }}
                   priority
                 />
@@ -268,6 +266,9 @@ export default function Hero({
           <div className="h-1 w-1 rounded-full bg-purple-400" />
         </div>
       </div>
+
+      {/* Smooth bottom fade overlay to eliminate the harsh section cutoff */}
+      <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#05060a] to-transparent pointer-events-none z-30" />
     </section>
   );
 }
