@@ -295,7 +295,7 @@ export default function JourneyClient({ milestones }: { milestones: Milestone[] 
         </div>
 
         {/* TIMELINE CONTAINER */}
-        <div className="relative mx-auto w-full max-w-5xl h-[900px] overflow-hidden rounded-2xl">
+        <div className="relative mx-auto w-full max-w-5xl h-225 overflow-hidden rounded-2xl">
           
           <style dangerouslySetInnerHTML={{__html: `
             .hide-native-scroll::-webkit-scrollbar {
@@ -332,7 +332,7 @@ export default function JourneyClient({ milestones }: { milestones: Milestone[] 
           >
             {/* The Thumb */}
             <motion.div 
-              className={`rounded-full bg-purple-500/80 transition-[width,background-color,box-shadow] duration-200 ${isHovered || isDragging ? 'w-2 shadow-[0_0_15px_rgba(168,85,247,0.9)] bg-purple-400' : 'w-[2px] shadow-[0_0_8px_rgba(168,85,247,0.6)]'}`}
+              className={`rounded-full bg-purple-500/80 transition-[width,background-color,box-shadow] duration-200 ${isHovered || isDragging ? 'w-2 shadow-[0_0_15px_rgba(168,85,247,0.9)] bg-purple-400' : 'w-0.5 shadow-[0_0_8px_rgba(168,85,247,0.6)]'}`}
               style={{
                 height: `${thumbHeight}px`,
                 transform: `translateY(${scrollProgress * maxTranslateY}px)`
@@ -347,13 +347,13 @@ export default function JourneyClient({ milestones }: { milestones: Milestone[] 
             className="h-full w-full overflow-y-auto relative hide-native-scroll"
           >
             {/* STICKY OVERLAYS WRAPPER */}
-            <div className="sticky top-0 left-0 w-full h-[900px] pointer-events-none z-20 -mb-[900px]">
+            <div className="sticky top-0 left-0 w-full h-225 pointer-events-none z-20 -mb-225">
                               
               {/* STICKY TOP OVERLAY */}
-              <div className={`absolute top-0 left-0 w-full h-48 bg-gradient-to-b from-[#05060A] via-[#05060A]/95 to-transparent transition-opacity duration-300 ${isAtTop ? 'opacity-0' : 'opacity-100'}`}>
+              <div className={`absolute top-0 left-0 w-full h-48 bg-linear-to-b from-[#05060A] via-[#05060A]/95 to-transparent transition-opacity duration-300 ${isAtTop ? 'opacity-0' : 'opacity-100'}`}>
                 <div className="absolute left-6 md:left-1/2 top-8 -translate-x-1/2 flex flex-col items-center">
                   <div className="flex flex-col items-center gap-1.5 mb-3">
-                    <div className="size-[3px] rounded-full bg-slate-600 opacity-30" />
+                    <div className="size-0.75 rounded-full bg-slate-600 opacity-30" />
                     <div className="size-1 rounded-full bg-slate-600 opacity-50" />
                     <div className="size-1.5 rounded-full bg-slate-600 opacity-80" />
                   </div>
@@ -361,14 +361,14 @@ export default function JourneyClient({ milestones }: { milestones: Milestone[] 
                     {topCardName}
                   </div>
                   <div className="size-3 rounded-full bg-[#05060A] border-2 border-slate-500 z-10 box-content mb-1" />
-                  <div className="w-[2px] h-16 bg-gradient-to-t from-slate-700 to-transparent" />
+                  <div className="w-0.5 h-16 bg-linear-to-t from-slate-700 to-transparent" />
                 </div>
               </div>
 
               {/* STICKY BOTTOM OVERLAY */}
-              <div className={`absolute bottom-0 left-0 w-full h-48 bg-gradient-to-t from-[#05060A] via-[#05060A]/95 to-transparent transition-opacity duration-300 ${isAtBottom ? 'opacity-0' : 'opacity-100'}`}>
+              <div className={`absolute bottom-0 left-0 w-full h-48 bg-linear-to-t from-[#05060A] via-[#05060A]/95 to-transparent transition-opacity duration-300 ${isAtBottom ? 'opacity-0' : 'opacity-100'}`}>
                 <div className="absolute left-6 md:left-1/2 bottom-8 -translate-x-1/2 flex flex-col items-center">
-                  <div className="w-[2px] h-16 bg-gradient-to-b from-slate-700 to-transparent" />
+                  <div className="w-0.5 h-16 bg-linear-to-b from-slate-700 to-transparent" />
                   <div className="size-3 rounded-full bg-[#05060A] border-2 border-slate-500 z-10 box-content mt-1" />
                   <div className="mt-3 text-[11px] font-medium text-slate-300 tracking-wider whitespace-nowrap">
                     {bottomCardName}
@@ -376,7 +376,7 @@ export default function JourneyClient({ milestones }: { milestones: Milestone[] 
                   <div className="flex flex-col items-center gap-1.5 mt-3">
                     <div className="size-1.5 rounded-full bg-slate-600 opacity-80" />
                     <div className="size-1 rounded-full bg-slate-600 opacity-50" />
-                    <div className="size-[3px] rounded-full bg-slate-600 opacity-30" />
+                    <div className="size-0.75 rounded-full bg-slate-600 opacity-30" />
                   </div>
                 </div>
               </div>
@@ -385,7 +385,7 @@ export default function JourneyClient({ milestones }: { milestones: Milestone[] 
             {/* ACTUAL TIMELINE CONTENT */}
             <div className="relative w-full px-4 md:px-0 pt-24 pb-32">
               
-              <div className="absolute left-6 md:left-1/2 top-0 bottom-0 w-[2px] bg-gradient-to-b from-purple-500 via-slate-800 to-slate-800 md:-translate-x-1/2 z-0" />
+              <div className="absolute left-6 md:left-1/2 top-0 bottom-0 w-0.5 bg-linear-to-b from-purple-500 via-slate-800 to-slate-800 md:-translate-x-1/2 z-0" />
               
               {/* PRESENT NODE */}
               <div className="present-node relative flex items-center h-0 mb-24 md:mb-28">
@@ -440,7 +440,7 @@ export default function JourneyClient({ milestones }: { milestones: Milestone[] 
                           <div className={`absolute rounded-full transition-all duration-500 ${isActive ? 'size-2 bg-white shadow-[0_0_10px_rgba(255,255,255,0.8)] opacity-100' : 'size-1.5 bg-transparent opacity-0'}`} />
                         </div>
 
-                        <div className={`hidden md:block absolute top-10 w-[calc(2.5rem-2px)] border-t border-dashed -translate-y-1/2 z-0 transition-colors duration-500 ${isActive ? 'border-purple-400/80' : 'border-slate-600/50'} ${isRightCard ? 'left-1/2 ml-1' : 'right-1/2 mr-1'}`} />
+                        <div className={`hidden md:block absolute top-10 w-9.5 border-t border-dashed -translate-y-1/2 z-0 transition-colors duration-500 ${isActive ? 'border-purple-400/80' : 'border-slate-600/50'} ${isRightCard ? 'left-1/2 ml-1' : 'right-1/2 mr-1'}`} />
 
                         <div className={`md:hidden absolute top-10 left-6 w-8 border-t border-dashed -translate-y-1/2 z-0 transition-colors duration-500 ${isActive ? 'border-purple-400/80' : 'border-slate-600/50'}`} />
 
@@ -455,9 +455,9 @@ export default function JourneyClient({ milestones }: { milestones: Milestone[] 
                             onClick={() => setActiveModalItem(item)}
                             className={`group relative cursor-pointer rounded-2xl border bg-[#0B1121] p-6 shadow-xl transition-all duration-300 hover:bg-[#0d1428] ${isActive ? 'border-purple-500/40 shadow-[0_0_30px_rgba(147,51,234,0.1)]' : 'border-slate-800/80 hover:border-purple-500/30'}`}
                           >
-                            <div className={`absolute top-10 -translate-y-1/2 size-3.5 rotate-45 bg-[#0B1121] group-hover:bg-[#0d1428] transition-colors duration-300 hidden md:block z-10 ${isRightCard ? '-left-[7px] border-b border-l' : '-right-[7px] border-t border-r'} ${isActive ? 'border-purple-500/40' : 'border-slate-800/80 group-hover:border-purple-500/30'}`} />
+                            <div className={`absolute top-10 -translate-y-1/2 size-3.5 rotate-45 bg-[#0B1121] group-hover:bg-[#0d1428] transition-colors duration-300 hidden md:block z-10 ${isRightCard ? '-left-1.75 border-b border-l' : '-right-1.75 border-t border-r'} ${isActive ? 'border-purple-500/40' : 'border-slate-800/80 group-hover:border-purple-500/30'}`} />
                             
-                            <div className={`absolute top-10 -translate-y-1/2 -left-[7px] size-3.5 rotate-45 border-b border-l bg-[#0B1121] group-hover:bg-[#0d1428] transition-colors duration-300 md:hidden z-10 ${isActive ? 'border-purple-500/40' : 'border-slate-800/80 group-hover:border-purple-500/30'}`} />
+                            <div className={`absolute top-10 -translate-y-1/2 -left-1.75 size-3.5 rotate-45 border-b border-l bg-[#0B1121] group-hover:bg-[#0d1428] transition-colors duration-300 md:hidden z-10 ${isActive ? 'border-purple-500/40' : 'border-slate-800/80 group-hover:border-purple-500/30'}`} />
 
                             <div className="flex gap-4 items-start">
                               <div className={`flex size-12 shrink-0 items-center justify-center rounded-xl transition-colors duration-300 ${isActive ? 'bg-purple-500/20 text-purple-300 border border-purple-500/30' : 'bg-purple-500/10 text-purple-400 border border-purple-500/20'}`}>
@@ -526,7 +526,7 @@ export default function JourneyClient({ milestones }: { milestones: Milestone[] 
                   <div className="flex flex-col items-center gap-1.5 mt-3">
                     <div className="size-1.5 rounded-full bg-slate-600 opacity-80" />
                     <div className="size-1 rounded-full bg-slate-600 opacity-50" />
-                    <div className="size-[3px] rounded-full bg-slate-600 opacity-30" />
+                    <div className="size-0.75 rounded-full bg-slate-600 opacity-30" />
                   </div>
                 </div>
               </div>

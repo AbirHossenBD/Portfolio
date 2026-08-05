@@ -1,20 +1,22 @@
+// Path: src/app/page.tsx
 import Contact from "@/components/Contact";
+import Footer from "@/components/Footer";
 import Hero from "@/components/Hero";
 import Projects from "@/components/Projects";
 import Skills from "@/components/Skills";
 import JourneyClient from "@/components/JourneyClient";
 import { Navbar } from "@/components/Navbar";
-import { getHeroData, getJourneyData } from "@/sanity/lib/queries";
+import { getHeroData, getJourneyData, getContactData } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
 
 export default async function Home() {
   const hero = await getHeroData();
   const milestones = await getJourneyData();
+  const contactData = await getContactData();
 
   const heroImageUrl = hero?.portrait
     ? urlFor(hero.portrait).width(640).height(800).fit("crop").url()
     : undefined;
-
   const logoImageUrl = hero?.logoImage
     ? urlFor(hero.logoImage).width(128).height(128).fit("max").url()
     : undefined;
@@ -46,6 +48,11 @@ export default async function Home() {
       <Projects />
       <JourneyClient milestones={milestones || []} />
       <Contact />
+      <Footer
+        footerText={contactData?.footerText}
+        copyrightYear={contactData?.copyrightYear}
+        logoText={hero?.logoText ?? "AH"}
+      />
     </>
   );
 }

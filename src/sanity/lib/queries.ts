@@ -48,6 +48,27 @@ export async function getSkillCategories() {
   return await client.fetch(query);
 }
 
+export async function getContactData() {
+  const query = `*[_type == "contact"][0]{
+    badgeTagline,
+    heading,
+    subheading,
+    email,
+    availabilityStatus,
+    locationText,
+    socialLinks[]{
+      label,
+      detail,
+      url,
+      "iconUrl": iconImage.asset->url,
+      accentColor
+    },
+    footerText,
+    copyrightYear
+  }`;
+  return await client.fetch(query);
+}
+
 export async function getSkills() {
   const query = `*[_type == "skillCategory"] | order(_createdAt asc){
     title,

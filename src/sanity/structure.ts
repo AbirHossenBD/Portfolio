@@ -1,7 +1,7 @@
+// Path: src/sanity/structure.ts
 import type {StructureResolver} from 'sanity/structure'
 import {singletonDocumentIds, singletonTypes} from './singletons'
 
-// https://www.sanity.io/docs/structure-builder-cheat-sheet
 export const structure: StructureResolver = (S) =>
   S.list()
     .title('Content')
@@ -13,6 +13,14 @@ export const structure: StructureResolver = (S) =>
           S.document()
             .schemaType('hero')
             .documentId(singletonDocumentIds.hero),
+        ),
+      S.listItem()
+        .title('Contact & Footer')
+        .id('contact')
+        .child(
+          S.document()
+            .schemaType('contact')
+            .documentId(singletonDocumentIds.contact),
         ),
       S.divider(),
       ...S.documentTypeListItems().filter(
